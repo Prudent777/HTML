@@ -1,0 +1,2033 @@
+<section>
+
+<!--
+
+    Sections
+
+  This source produces section 4.3: Sections
+  https://w3c.github.io/html/sections.html
+
+  It covers:
+  - elements used to create the sectioning root, content sections within the document outline,
+    and headings:
+      body, article, section, nav, aside, h1-h6, header, footer
+  - headings and sections and creating an outline
+  - summary of usage for the above mentioned elements
+
+-->
+
+<h3 id="sections">Sections</h3>
+
+<h4 id="the-body-element">The <dfn element><code>body</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Sectioning root</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>As the second element in an <{html}> element.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>
+      A <{body}> element's <a>start tag</a> may be omitted if the element is empty, or if
+      the first thing inside the <{body}> element is not a <a>space character</a> or a
+      <a>comment</a>, except if the first thing inside the <{body}> element is a
+      <{meta}>, <{link}>, <{script}>, <{style}>, or
+      <{template}> element.</dd>
+    <dd>
+      A <{body}> element's <a>end tag</a> may be omitted if the <{body}> element
+      is not immediately followed by a <a>comment</a>.
+    </dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dd><code>onafterprint</code></dd>
+    <dd><code>onbeforeprint</code></dd>
+    <dd><code>onbeforeunload</code></dd>
+    <dd><code>onhashchange</code></dd>
+    <dd><code>onlanguagechange</code></dd>
+    <dd><code>onmessage</code></dd>
+    <dd><code>onoffline</code></dd>
+    <dd><code>ononline</code></dd>
+    <dd><code>onpagehide</code></dd>
+    <dd><code>onpageshow</code></dd>
+    <dd><code>onpopstate</code></dd>
+    <dd><code>onrejectionhandled</code></dd>
+    <dd><code>onstorage</code></dd>
+    <dd><code>onunhandledrejection</code></dd>
+    <dd><code>onunload</code></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>document</code></a> role (default - <a><em>do not set</em></a>).
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">applicable to the default role</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl" data-highlight="webidl">
+        interface HTMLBodyElement : HTMLElement {
+        };
+        HTMLBodyElement implements WindowEventHandlers;
+      </pre>
+    </dd>
+  </dl>
+
+  The <{body}> element <a>represents</a> the content of the document.
+
+  In <a lt="conforming document">conforming documents</a>, there is only one <{body}> element. The
+  <code>document.body</code> IDL attribute provides scripts with easy access to a document's
+  <{body}> element.
+
+  <p class="note">
+    Some DOM operations (for example, parts of the <a href="#drag-and-drop">drag and drop</a> model) are defined in terms
+    of "<a href="#the-body-element">the <code>body</code> element</a>". This refers to a particular element in the DOM, as per the
+    definition of the term, and not any arbitrary <{body}> element.
+  </p>
+
+  The <{body}> element exposes as <a>event handler content attributes</a> a number of the
+  <a>event handlers</a> of the <code>Window</code> object. It also mirrors their
+  <a>event handler IDL attributes</a>.
+
+  The <code>onblur</code>, <code>onerror</code>, <code>onfocus</code>, <a attribute for="GlobalEventHandlers"><code>onload</code></a>,
+  <code>onresize</code>, and <code>onscroll</code> <a>event handlers</a> of the <code>Window</code>
+  object, exposed on the <{body}> element, replace the generic <a>event handlers</a> with
+  the same names normally supported by <a>HTML elements</a>.
+
+  <p class="example">
+    Thus, for example, a bubbling <code>error</code> event dispatched on a child of
+    <a href="#the-body-element">the <code>body</code> element</a> of a {{Document}} would first trigger the <code>onerror</code>
+    <a>event handler content attributes</a> of that element, then that of the root <{html}>
+    element, and only <em>then</em> would it trigger the <code>onerror</code> <a>event handler
+    content attribute</a> on the <{body}> element. This is because the event would bubble
+    from the target, to the <{body}>, to the <{html}>, to the
+    {{Document}}, to the {{Window}}, and the <a>event handler</a> on the
+    <{body}> is watching the <code>Window</code> not the <{body}>. A regular event
+    listener attached to the <{body}> using <code>addEventListener()</code>, however, would
+    be run when the event bubbled through the <code>body</code> and not when it reaches the
+    <code>Window</code> object.
+  </p>
+
+  <div class="example">
+    This page updates an indicator to show whether or not the user is online:
+
+    <xmp highlight="html">
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Online or offline?</title>
+          <script>
+            function update(online) {
+              document.getElementById('status').textContent =
+                online ? 'Online' : 'Offline';
+            }
+          </script>
+        </head>
+        <body ononline="update(true)" onoffline="update(false)" onload="update(navigator.onLine)">
+          <p>You are: <span id="status">(Unknown)</span></p>
+        </body>
+      </html>
+    </xmp>
+  </div>
+
+<h4 id="the-article-element">The <dfn element><code>article</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>, but with no <{main}> element descendants.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>article</code></a> (default - <a><em>do not set</em></a>),
+      <a attr-value for="aria/role"><code>application</code></a>,
+      <a attr-value for="aria/role"><code>document</code></a>,
+      <a attr-value for="aria/role"><code>feed</code></a>,
+      <a attr-value for="aria/role"><code>main</code></a>,
+      <a attr-value for="aria/role"><code>none</code></a>,
+      <a attr-value for="aria/role"><code>presentation</code></a>
+      or
+      <a attr-value for="aria/role"><code>region</code></a>.
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">applicable to the allowed roles</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+  </dl>
+
+  The <{article}> element <a>represents</a> a complete, or self-contained, composition in a
+  document, page, application, or site. This could be a magazine, newspaper, technical or
+  scholarly article, an essay or report, a blog or other social media post.
+
+  A general rule is that the <{article}> element is appropriate only if the element's contents
+  would be listed explicitly in the document's outline. Each <{article}> should be identified,
+  typically by including a heading(<{h1}>-<{h6}> element) as a child of the <{article}> element.
+
+  <p>
+    Assistive Technology may convey the semantics of the <{article}> to users. This
+    information can provide a hint to users as to the type of content. For example the
+    <code>role</code> of the element, which in this case matches the element name "article",
+    can be announced by screen reader software when a user navigates to an <{article}> element.
+    User Agents may also provide methods to navigate to <{article}> elements.
+  </p>
+
+  An <{article}> element may contain other nested elements to provide additional semantics
+  to different portions of the <code>article</code>. For instance, an <code>article</code>
+  may consist of a <{header}> that contains the primary heading of the <code>article</code>,
+  with other elements to provide lead-in or meta content about the <code>article</code> prose.
+
+  Additionally, an article may consist of various subsections that, together, form  the complete
+  composition. These subsections may be implied by the use of appropriately ranked  headings
+  (<{h1}>-<{h6}> elements), or may be explicitly set by use of a <{section}> element or elements.
+
+  When <{article}> elements are nested, the inner <{article}> elements represent articles that
+  are in principle related to the contents of the outer article. For instance, a blog entry on a
+  site could consist of summaries of other blog entries in <{article}> elements nested within
+  the <{article}> element for the blog entry.
+
+  <div class="example">
+    <p>
+      The following is an example of a blog post extract, marked up using the <{article}> element:
+    </p>
+
+    <xmp highlight="html">
+      <article>
+        <header>
+          <h2><a href="https://example.com/short-note/">Short note on wearing shorts</a></h2>
+          <p><a href="https://example.com/short-note/#comments">6 comments</a></p>
+        </header>
+        <p>
+          A fellow traveller posed an interesting question: Why do you wear shorts rather than longs? The short answer is that I enjoy wearing shorts, the long answer is...
+        </p>
+        <p>
+          <a href="https://example.com/short-note/">Continue reading: Short note on wearing shorts</a>
+        </p>
+      </article>
+    </xmp>
+  </div>
+
+  <p class="note">
+    The schema.org vocabulary can be used to provide more granular information about
+    the type of article, using the <a href="https://schema.org/Article">CreativeWork - Article</a>
+    subtypes, other information such as the publication date for the article can also be provided.
+  </p>
+
+  <div class="example">
+    This example shows a blog post using the <{article}> element, with some
+    <i>schema.org</i> annotations:
+
+    <xmp highlight="html">
+      <article vocab="http://schema.org/" typeof="Article">
+        <header>
+          <h2 property="name">The Very First Rule of Life</h2>
+          <p property="datePublished"><time datetime="2018-02-07">3 days ago</time></p>
+        </header>
+        <div property="articleBody">
+          <p>Always check that your computer is plugged in before you complain it isn't working.</p>
+        </div>
+        <footer>
+          <a href="?comments=1">Show comments...</a>
+        </footer>
+      </article>
+    </xmp>
+
+    Here is that same blog post, but showing some of the comments:
+
+    <xmp highlight="html">
+      <article>
+        <header>
+          <h2>The Very First Rule of Life</h2>
+          <p><time datetime="2018-02-07">3 days ago</time></p>
+        </header>
+        <p>Always check that your computer is plugged in before you complain it isn't working.</p>
+        <section>
+          <h3>Comments</h3>
+          <ol>
+            <li id="c1">
+              <p>Posted by:
+                <span>George Washington</span>
+              </p>
+              <p><time datetime="2018-02-10">15 minutes ago</time></p>
+              <p>Yeah! I've done that!</p>
+            </li>
+            <li id="c2">
+              <p>Posted by:
+                <span>George Hammond</span>
+              </p>
+              <p><time datetime="2018-02-10">5 minutes ago</time></p>
+              <p>Hey, you have the same first name as me.</p>
+            </li>
+          </ol>
+        </section>
+      </article>
+    </xmp>
+
+    <p>
+      Notice the use of an ordered list (<code>ol</code> element) to organize the comments.
+      Also note these comments are considered a subsection of the article, identified
+      by the <code>section</code> element they are nested within.
+    </p>
+  </div>
+
+<h4 id="the-section-element">The <dfn element><code>section</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>region</code></a> role (default - <a><em>do not set</em></a>),
+      <a attr-value for="aria/role"><code>alert</code></a>,
+      <a attr-value for="aria/role"><code>alertdialog</code></a>,
+      <a attr-value for="aria/role"><code>application</code></a>,
+      <a attr-value for="aria/role"><code>banner</code></a>,
+      <a attr-value for="aria/role"><code>complementary</code></a>,
+      <a attr-value for="aria/role"><code>contentinfo</code></a>,
+      <a attr-value for="aria/role"><code>dialog</code></a>,
+      <a attr-value for="aria/role"><code>document</code></a>,
+      <a attr-value for="aria/role"><code>feed</code></a>,
+      <a attr-value for="aria/role"><code>log</code></a>,
+      <a attr-value for="aria/role"><code>main</code></a>,
+      <a attr-value for="aria/role"><code>marquee</code></a>,
+      <a attr-value for="aria/role"><code>navigation</code></a>,
+      <a attr-value for="aria/role"><code>none</code></a>,
+      <a attr-value for="aria/role"><code>presentation</code></a>,
+      <a attr-value for="aria/role"><code>search</code></a>,
+      <a attr-value for="aria/role"><code>status</code></a>
+      or
+      <a attr-value for="aria/role"><code>tabpanel</code></a>.
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">
+    applicable to the allowed roles</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+    <dt>
+      DPub Roles:
+    </dt>
+    <dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-abstract"><code>doc-abstract</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-acknowledgments"><code>doc-acknowledgments</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-afterword"><code>doc-afterword</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-appendix"><code>doc-appendix</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-bibliography"><code>doc-bibliography</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-chapter"><code>doc-chapter</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-colophon"><code>doc-colophon</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-conclusion"><code>doc-conclusion</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-credit"><code>doc-credit</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-credits"><code>doc-credits</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-dedication"><code>doc-dedication</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-endnotes"><code>doc-endnotes</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-epilogue"><code>doc-epilogue</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-errata"><code>doc-errata</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-example"><code>doc-example</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-foreword"><code>doc-foreword</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-index"><code>doc-index</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-introduction"><code>doc-introduction</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-notice"><code>doc-notice</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-pagelist"><code>doc-pagelist</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-part"><code>doc-part</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-preface"><code>doc-preface</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-prologue"><code>doc-prologue</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-pullquote"><code>doc-pullquote</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-qna"><code>doc-qna</code></a>
+      or
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-toc"><code>doc-toc</code></a>
+    </dd>
+  </dl>
+
+  The <{section}> element <a>represents</a> a generic section of a document or application.
+  A section, in this context, is a thematic grouping of content. Each <code>section</code> should
+  be identified, typically by including a heading (<code>h1</code>-<code>h6</code> element) as a
+  child of the <{section}> element.
+
+  <p class="example">
+    Examples of sections would be chapters, the various tabbed pages in a tabbed dialog box, or the
+    numbered sections of a thesis. A Web site's home page could be split into sections for an
+    introduction, news items, and contact information.
+  </p>
+
+  <p class="note">
+    Unlike an <{article}>, a <{section}> may not be fully understandable if taken out of context
+    of its originating document or application. Authors are encouraged to use the <{article}>
+    element instead of the <{section}> element when the content is a complete, or self-contained,
+    composition.
+  </p>
+
+  <p class="note">
+    While the <{section}> element <a>represents</a> a generic section of a document or application,
+    <b>it is not a generic container element</b>. When a wrapping element is needed for styling
+    purposes, or as a convenience for scripting, authors are encouraged to use the
+    <{div}> element instead. A general rule is that the <{section}> element is appropriate only if
+    the element's contents would be listed explicitly in the document's <a>outline</a>.
+  </p>
+
+  <p>
+    Assistive Technology may convey the semantics of the <{section}> to users when the element has
+    an explicit label. This information can provide a hint to users as to the type of content.
+    For example the <code>role</code> of the element, which in this case is "region", can be
+    announced by screen reader software when a user navigates to an <{section}> element.
+    User Agents may also provide methods to navigate to <{section}> elements.
+  </p>
+
+  <div class="example">
+    In the following example, we see an article (part of a larger Web page) about apples,
+    containing two short sections.
+
+    <p class="note">
+      The <{section}> has an <{aria/aria-label}> attribute providing a brief description of the
+      contents. Assistive technology may convey the
+      <a attr-value for="aria/role"><code>region</code></a> role along with the <{aria/aria-label}>
+      value as a hint to users.
+    </p>
+
+    <xmp highlight="html">
+      <article>
+        <header>
+          <h2>Apples</h2>
+          <p>Tasty, delicious fruit!</p>
+        </header>
+        <p>The apple is the pomaceous fruit of the apple tree.</p>
+        <section aria-label="Red apples.">
+          <h3>Red Delicious</h3>
+          <p>These bright red apples are found in many supermarkets.</p>
+        </section>
+        <section aria-label="Green apples.">
+          <h3>Granny Smith</h3>
+          <p>These juicy, green apples make a great filling for apple pies.</p>
+        </section>
+      </article>
+    </xmp>
+
+  </div>
+
+  <div class="example">
+    Here is a graduation program with two sections, one for description of the ceremony, and
+    one for the listing of people graduating. Within the second <code>section</code> there could
+    exist <code>article</code>s, providing brief bios, academic achievements, and personal
+    note from the graduates.
+
+    <xmp highlight="html">
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Graduation Ceremony Summer 2022</title>
+        </head>
+        <body>
+          <h1>Graduation</h1>
+          <section>
+            <h2>Ceremony</h2>
+            <p>Opening Procession</p>
+            <p>Speech by Valedictorian</p>
+            <p>Speech by Class President</p>
+            <p>Presentation of Diplomas</p>
+            <p>Closing Speech by Headmaster</p>
+          </section>
+          <section>
+            <h2>Graduates</h2>
+            <ul>
+              <li>Molly Carpenter</li>
+              <li>Anastasia Luccio</li>
+              <li>Ebenezar McCoy</li>
+              <li>Karrin Murphy</li>
+              <li>Thomas Raith</li>
+              <li>Susan Rodriguez</li>
+            </ul>
+            <article>
+              <h3>About Molly Carpenter</h3>
+              <p>
+                Molly was valedictorian of her class, graduating with a GPA of...
+              </p>
+            </article>
+            ...
+          </section>
+        </body>
+      </html>
+    </xmp>
+  </div>
+
+  <div class="example">
+    In this example, a book author has marked up some sections as chapters and some as appendices,
+    and uses CSS to style the headers in these two classes of section differently. The whole book
+    is wrapped in an <{article}> element as part of an even larger document containing other books.
+
+    <xmp highlight="html">
+      <style>
+        section { border: double medium; margin: 2em; }
+        section.chapter h3 { font: 2em Roboto, Helvetica Neue, sans-serif; }
+        section.appendix h3 { font: small-caps 2em Roboto, Helvetica Neue, sans-serif; }
+      </style>
+      ...
+      <article class="book">
+        <header>
+          <h2>My Book</h2>
+          <p>A sample with not much content</p>
+          <p><small>Published by Example Publishing.</small></p>
+        </header>
+        <section class="chapter">
+          <h3>My First Chapter</h3>
+          <p>This is the first of my chapters. It doesn't say much.</p>
+          <p>But it has two paragraphs!</p>
+        </section>
+        <section class="chapter">
+          <h3>It Continues: The Second Chapter</h3>
+          <p>Bla dee bla, dee bla dee bla. Boom.</p>
+        </section>
+        <section class="chapter">
+          <h3>Chapter Three: A Further Example</h3>
+          <p>It's not like a battle between brightness and earthtones would go unnoticed.</p>
+          <p>But it might ruin my story.</p>
+        </section>
+        <section class="appendix">
+          <h3>Appendix A: Overview of Examples</h3>
+          <p>These are demonstrations.</p>
+        </section>
+        <section class="appendix">
+          <h3>Appendix B: Some Closing Remarks</h3>
+          <p>Hopefully this long example shows that you <em>can</em> style
+          sections, so long as they are used to indicate actual sections.</p>
+        </section>
+      </article>
+    </xmp>
+
+  </div>
+
+<h4 id="the-nav-element">The <dfn element><code>nav</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>, but with no <{main}> element descendants.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>navigation</code></a> role (default - <a><em>do not set</em></a>).
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">
+    applicable to the default role</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+    <dt>
+      DPub Roles:
+    </dt>
+    <dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-index"><code>doc-index</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-pagelist"><code>doc-pagelist</code></a>
+      or
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-toc"><code>doc-toc</code></a>
+    </dd>
+  </dl>
+
+  The <{nav}> element <a>represents</a> a section of a page that links to other pages or to
+  parts within the page: a section with navigation links.
+
+  <p>
+    Assistive Technology may convey the semantics of the <{nav}> to users. This information can
+    provide a hint to users as to the type of content.  For example the <code>role</code> of the
+    element, which in this case is "navigation", can be announced by screen reader software when
+    a user navigates to an <{nav}> element. User Agents may also provide methods to navigate to
+    <{nav}> elements.
+  </p>
+
+  <p class="note">
+    In cases where the content of a <{nav}> element represents a list of items, use list
+    markup to aid understanding and navigation.
+  </p>
+
+  <p class="note">
+    Not all groups of links on a page need to be in a <{nav}> element — the element is
+    primarily intended for sections that consist of major navigation blocks. In particular, it is
+    common for footers to have a short list of links to various pages of a site, such as the terms
+    of service, the home page, and a copyright page. The <{footer}> element alone is sufficient
+    for such cases; while a <{nav}> element can be used in such cases, it is usually unnecessary.
+  </p>
+
+  <p class="note">
+    User agents (such as screen readers) that are targeted at users who can benefit from navigation
+    information being omitted in the initial rendering, or who can benefit from navigation
+    information being immediately available, can use this element as a way to determine what
+    content on the page to initially skip or provide on request (or both).
+  </p>
+
+  <div class="example">
+    In the following example, there are two <{nav}> elements, one for primary navigation
+    around the site, and one for secondary navigation around the page itself.
+
+    <xmp highlight="html">
+      <body>
+        <h1>The Wiki Center Of Exampland</h1>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/events">Current Events</a></li>
+          </ul>
+        </nav>
+        <article>
+          <header>
+            <h2>Demos in Exampland</h2>
+            <p>Written by A. N. Other.</p>
+          </header>
+          <nav>
+            <ul>
+              <li><a href="#public">Public demonstrations</a></li>
+              <li><a href="#destroy">Demolitions</a></li>
+            </ul>
+          </nav>
+          <div>
+            <section id="public">
+              <h2>Public demonstrations</h2>
+            </section>
+            <section id="destroy">
+              <h2>Demolitions</h2>
+            </section>
+          </div>
+          <footer>
+            <p><a href="?edit">Edit</a> | <a href="?delete">Delete</a> | <a href="?Rename">Rename</a></p>
+          </footer>
+        </article>
+        <footer>
+          <p><small>© copyright 1998 Exampland Emperor</small></p>
+        </footer>
+      </body>
+    </xmp>
+  </div>
+
+  <div class="example">
+    In the following example, the page has several places where links are present, but only one of
+    those places is considered a navigation section.
+
+    <xmp highlight="html">
+      <body typeof="schema:Blog">
+        <header>
+          <h1>Wake up sheeple!</h1>
+          <p><a href="news.html">News</a> -
+            <a href="blog.html">Blog</a> -
+            <a href="forums.html">Forums</a></p>
+          <p>Last Modified: <span property="schema:dateModified">2009-04-01</span></p>
+          <nav>
+            <h2>Navigation</h2>
+            <ul>
+              <li><a href="articles.html">Index of all articles</a></li>
+              <li><a href="today.html">Things sheeple need to wake up for today</a></li>
+              <li><a href="successes.html">Sheeple we have managed to wake</a></li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <article property="schema:blogPosts" typeof="schema:BlogPosting">
+            <header>
+              <h2 property="schema:headline">My Day at the Beach</h2>
+            </header>
+            <section property="schema:articleBody">
+              <p>Today I went to the beach and had a lot of fun.</p>
+              ...
+            </section>
+            <footer>
+              <p>Posted <time property="schema:datePublished" datetime="2009-10-10">Thursday</time>.</p>
+            </footer>
+          </article>
+          ...
+        </main>
+        <footer>
+          <p>Copyright ©
+            <span property="schema:copyrightYear">2010</span>
+            <span property="schema:copyrightHolder">The Example Company</span>
+          </p>
+          <p><a href="about.html">About</a> -
+            <a href="policy.html">Privacy Policy</a> -
+            <a href="contact.html">Contact Us</a></p>
+        </footer>
+      </body>
+    </xmp>
+
+    Notice the <{main}> element being used to wrap the main content of the page. In this
+    case, all content other than the page header and footer.
+
+    You can also see microdata annotations in the above example that use the schema.org vocabulary
+    to provide the publication date and other metadata about the blog post.
+  </div>
+
+  <div class="example">
+    A <{nav}> element doesn't have to contain a list, it can contain other kinds of content
+    as well. In this navigation block, links are provided in prose:
+
+    <xmp highlight="html">
+      <nav>
+        <h2>Navigation</h2>
+        <p>You are on my home page. To the north lies <a href="/blog">my blog</a>, from whence the sounds of battle can be heard. To the east you can see a large mountain, upon which many <a href="/school">school papers</a> are littered. Far up this mountain you can spy a little figure who appears to be me, desperately scribbling out a <a href="/school/thesis">thesis</a>.</p>
+        <p>To the west are several exits. One fun-looking exit is labeled <a href="https://games.example.com/">"games"</a>. Another more boring-looking exit is labeled <a href="https://isp.example.net/">ISP™</a>.</p>
+        <p>To the south lies a dark and dank <a href="/about">contacts page</a>. Cobwebs cover its disused entrance, and at one point you see a rat run quickly out of the page.</p>
+      </nav>
+    </xmp>
+
+  </div>
+
+  <div class="example">
+    In this example, <{nav}> is used in an e-mail application, to let the user switch folders:
+
+    <xmp highlight="html">
+      <p><input type="button" value="Compose" onclick="compose()"></p>
+      <nav>
+        <h2>Folders</h2>
+        <ul>
+          <li><a href="/inbox" onclick="return openFolder(this.href)">Inbox</a> <span class="count"></span></li>
+          <li><a href="/sent" onclick="return openFolder(this.href)">Sent</a></li>
+          <li><a href="/drafts" onclick="return openFolder(this.href)">Drafts</a></li>
+          <li><a href="/trash" onclick="return openFolder(this.href)">Trash</a></li>
+          <li><a href="/customers" onclick="return openFolder(this.href)">Customers</a></li>
+        </ul>
+      </nav>
+    </xmp>
+
+  </div>
+
+<h4 id="the-aside-element">The <dfn element><code>aside</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>, but with no <{main}> element descendants.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>complementary</code></a> role (default - <a><em>do not set</em></a>),
+      <a attr-value for="aria/role"><code>feed</code></a>,
+      <a attr-value for="aria/role"><code>note</code></a>,
+      <a attr-value for="aria/role"><code>presentation</code></a>,
+      <a attr-value for="aria/role"><code>none</code></a>,
+      <a attr-value for="aria/role"><code>region</code></a>
+      or
+      <a attr-value for="aria/role"><code>search</code></a>
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">applicable to the allowed roles</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+    <dt>
+      DPub Roles:
+    </dt>
+    <dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-example"><code>doc-example</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-footnote"><code>doc-footnote</code></a>,
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-pullquote"><code>doc-pullquote</code></a>
+      or
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-tip"><code>doc-tip</code></a>
+    </dd>
+  </dl>
+
+  The <{aside}> element <a>represents</a> a section of a page that consists of content that
+  is tangentially related to the content of the parenting <a>sectioning content</a>, and which
+  could be considered separate from that content. Such sections are often represented as sidebars
+  in printed typography.
+
+  The element can be used for typographical effects like pull quotes or sidebars, for advertising,
+  for groups of <{nav}> elements, and for other content that is considered separate from
+  the main content of the nearest ancestor <a>sectioning content</a>.
+
+  Assistive Technology may convey the semantics of the <{aside}> to users. This information can
+  provide a hint to users as to the type of content. For example the <code>role</code> of
+  the element, which in this case is "complementary", can be announced by screen reader software
+  when a user navigates to an <{aside}> element. User Agents may also provide methods to navigate
+  to <{aside}> elements.
+
+  <p class="note">
+    It's not appropriate to use the <{aside}> element just for parentheticals, since those
+    are part of the main flow of the document.
+  </p>
+
+  <div class="example">
+    The following example shows how an aside is used to mark up background material on Switzerland
+    in a much longer news story on Europe.
+
+    <xmp highlight="html">
+      <aside>
+        <h2>Switzerland</h2>
+        <p>Switzerland, a land-locked country in the middle of geographic Europe, has not joined the geopolitical European Union, though it is a signatory to a number of European treaties.</p>
+      </aside>
+    </xmp>
+  </div>
+
+  <div class="example">
+    The following example shows how an aside is used to mark up a pull quote in a longer article.
+
+    <xmp highlight="html">
+      ...
+
+      <p>She later joined a large company, continuing on the same work.</p>
+      <q>I love my job. People ask me what I do for fun when I'm not at work. But I'm paid to do my hobby, so I never know what to answer. Some people wonder what they would do if they didn't have to work... but I know what I would do, because I was unemployed for a year, and I filled that time doing exactly what I do now.</q></p>
+
+      <aside>
+        <q> People ask me what I do for fun when I'm not at work. But I'm paid to do my hobby, so I never know what to answer. </q>
+      </aside>
+
+      <p>Of course her work — or should that be hobby? — isn't her only passion. She also enjoys other pleasures.</p>
+
+      ...
+    </xmp>
+
+  </div>
+
+  <div class="example">
+    The following extract shows how <{aside}> can be used for blogrolls and other side
+    content on a blog:
+
+    <xmp highlight="html">
+      <body>
+        <header>
+          <h1>My wonderful blog</h1>
+        </header>
+        <aside>
+          <!-- this aside contains two sections that are tangentially related
+          to the page, namely, links to other blogs, and links to blog posts
+          from this blog -->
+          <nav>
+            <h2>My blogroll</h2>
+            <ul>
+              <li><a href="https://blog.example.com/">Example Blog</a></li>
+            </ul>
+          </nav>
+          <nav>
+            <h2>Archives</h2>
+            <ol>
+              <li><a href="/last-post">My last post</a></li>
+              <li><a href="/first-post">My first post</a></li>
+            </ol>
+          </nav>
+        </aside>
+        <aside>
+          <!-- this aside is tangentially related to the page also, it
+          contains twitter messages from the blog author -->
+          <h2>Twitter Feed</h2>
+          <blockquote cite="https://twitter.example.net/t31351234">
+            I'm on vacation, writing my blog.
+          </blockquote>
+          <blockquote cite="https://twitter.example.net/t31219752">
+            I'm going to go on vacation soon.
+          </blockquote>
+        </aside>
+        <article>
+          <!-- this is a blog post -->
+          <h2>My last post</h2>
+          <p>This is my last post.</p>
+          <footer>
+            <p><a href="/last-post" rel="bookmark">Permalink</a></p>
+          </footer>
+        </article>
+        <article>
+          <!-- this is also a blog post -->
+          <h2>My first post</h2>
+          <p>This is my first post.</p>
+          <aside>
+            <!-- this aside is about the blog post, since it's inside the
+            <article> element; it would be wrong, for instance, to put the
+            blogroll here, since the blogroll isn't really related to this post
+            specifically, only to the page as a whole -->
+            <h1>Posting</h1>
+            <p>While I'm thinking about it, I wanted to say something about posting. Posting is fun!</p>
+          </aside>
+          <footer>
+            <p><a href="/first-post" rel="bookmark">Permalink</a></p>
+          </footer>
+        </article>
+        <footer>
+          <nav>
+            <a href="/archives">Archives</a> — <a href="/about">About me</a> — <a href="/copyright">Copyright</a>
+          </nav>
+        </footer>
+      </body>
+    </xmp>
+  </div>
+
+<h4 id="the-h1-h2-h3-h4-h5-and-h6-elements">
+  The <dfn element><code>h1</code></dfn>, <dfn element><code>h2</code></dfn>,
+  <dfn element><code>h3</code></dfn>, <dfn element><code>h4</code></dfn>,
+  <dfn element><code>h5</code></dfn>, and <dfn element><code>h6</code></dfn>
+  elements
+</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Heading content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Phrasing content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>heading</code></a> role (default - <a><em>do not set</em></a>),
+      <a attr-value for="aria/role"><code>none</code></a>,
+      <a attr-value for="aria/role"><code>presentation</code></a>
+      or
+      <a attr-value for="aria/role"><code>tab</code></a>
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes <a href="#allowed-aria-roles-states-and-properties">
+    applicable to the allowed roles</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl" data-highlight="webidl">
+        interface HTMLHeadingElement : HTMLElement {};
+      </pre>
+    </dd>
+    <dt>
+      DPub Roles:
+    </dt>
+    <dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-subtitle"><code>doc-subtitle</code></a>
+    </dd>
+  </dl>
+
+  These elements <a>represent</a> headings for their sections.
+
+  These elements have a <dfn>rank</dfn> given by the number in their name. The <code>h1</code>
+  element has the highest rank, the <code>h6</code> element has the lowest rank, and two
+  elements with the same name have equal rank.
+
+  Use the <a>rank</a> of heading elements to create the document outline.
+
+  <div class="example">
+    The following code shows how to mark up a document outline with six levels of headings.
+
+    <xmp highlight="html">
+      <body>
+        <h1>top level heading</h1>
+        <section>
+          <h2>2nd level heading</h2>
+          <section>
+            <h3>3nd level heading</h3>
+            <section>
+              <h4>4th level heading</h4>
+              <section>
+                <h5>5th level heading</h5>
+                <section>
+                  <h6>6th level heading</h6>
+                </section>
+              </section>
+            </section>
+          </section>
+        </section>
+      </body>
+    </xmp>
+
+    <p class="note">
+      The document outline would be the same if the <{section}> elements were not used.
+    </p>
+  </div>
+
+  <code>h1</code>–<code>h6</code> elements must not be used to markup subheadings, subtitles,
+  alternative titles and taglines unless intended to be the heading for a new section or
+  subsection.
+  Instead use the markup patterns in the [[#common-idioms-without-dedicated-elements]] section of
+  the specification.
+
+  Assistive technology often announces the presence and level of a heading to users, as a hint
+  to understand the structure of a document and construct a 'mental model' of its outline.
+  For example the <code>role</code> of the element, which in this case is "heading" and the
+  heading level "1" to "6", can be announced by screen reader software when a user navigates to
+  an <code>h1</code>–<code>h6</code> element. User Agents may also provide methods to navigate to
+  <code>h1</code>–<code>h6</code> elements.
+
+  <div class="example">
+    As far as their respective document outlines (their heading and section structures) are
+    concerned, these two snippets are semantically equivalent:
+
+    <xmp highlight="html">
+      <body>
+        <h1>Let's call it a draw(ing surface)</h1>
+        <h2>Diving in</h2>
+        <h2>Simple shapes</h2>
+        <h2>Canvas coordinates</h2>
+        <h3>Canvas coordinates diagram</h3>
+        <h2>Paths</h2>
+      </body>
+    </xmp>
+
+    <xmp highlight="html">
+      <body>
+        <h1>Let's call it a draw(ing surface)</h1>
+        <section>
+          <h2>Diving in</h2>
+        </section>
+        <section>
+          <h2>Simple shapes</h2>
+        </section>
+        <section>
+          <h2>Canvas coordinates</h2>
+          <section>
+            <h3>Canvas coordinates diagram</h3>
+          </section>
+        </section>
+        <section>
+          <h2>Paths</h2>
+        </section>
+      </body>
+    </xmp>
+
+    Authors might prefer the former style for its terseness, or the latter style for its
+    convenience in the face of heavy editing; which is best is purely an issue of preferred
+    authoring style.
+
+    The two styles can be combined, for compatibility with legacy tools while still future-proofing
+    for when that compatibility is no longer needed.
+
+  </div>
+
+  <p class="note">
+    The semantics and meaning of the <code>h1</code>–<code>h6</code> elements are further
+    detailed in the section on [[#headings-and-sections]].
+  </p>
+
+<h4 id="the-header-element">The <dfn element><code>header</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd>
+      <a>Flow content</a>, but with no <{main}> element descendants, or <{header}>,
+      <{footer}> elements that are not descendants of <a>sectioning content</a> which is
+      a descendant of the <{header}>.
+    </dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>banner</code></a> role (default - <a><em>do not set</em></a>),
+      <a attr-value for="aria/role"><code>group</code></a>,
+      <a attr-value for="aria/role"><code>none</code></a>
+      or
+      <a attr-value for="aria/role"><code>presentation</code></a>
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>
+      Any <code>aria-*</code> attributes
+      <a href="#allowed-aria-roles-states-and-properties">applicable to the allowed roles</a>.
+    </dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+    <dt>
+      DPub Roles:
+    </dt>
+    <dd>
+      <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-footnote"><code>doc-footnote</code></a>
+    </dd>
+  </dl>
+
+  The <{header}> element <a>represents</a> introductory content for its nearest ancestor <{main}>
+  element, <a>sectioning content</a>, or <a>sectioning root</a> element. A <{header}> typically
+  contains a group of introductory or navigational aids.
+
+  When a <{header}> element's nearest ancestor <a>sectioning root</a> element is the <{body}>
+  element, and it is not a descendant of the <{main}> element or a <a>sectioning content</a>
+  element, then that <{header}> is scoped to the <{body}> element and represents mostly
+  site-oriented content, or introductory content for the page as a whole.
+
+  Assistive Technology may convey to users the semantics of the <{header}> element when it applies
+  to the whole page. This information can provide a hint as to the type of content. For example,
+  the <{aria/role}> of the element, which in this case is "<code>banner</code>", can be announced
+  by screen reader software when a user navigates to a <{header}> element that is scoped to the
+  <{body}> element. User Agents may also provide methods to navigate to a <{header}> element
+  scoped to the <{body}> element.
+
+  <p class="note">
+    A <{header}> element is intended to usually contain the section's heading
+    (an <code>h1</code>–<code>h6</code> element), but this is not required. The <{header}> element
+    can also be used to wrap a section's table of contents, a search form, or any relevant logos.
+  </p>
+
+  <div class="example">
+    The following snippet shows how the element can be used to mark up a specification's header:
+
+    <xmp highlight="html">
+      <header>
+        <h1>Scalable Vector Graphics (SVG) 1.2</h1>
+        <p>W3C Working Draft 27 October 2004</p>
+        <dl>
+          <dt>This version:</dt>
+          <dd><a href="https://www.w3.org/TR/2004/WD-SVG12-20041027/">https://www.w3.org/TR/2004/WD-SVG12-20041027/</a></dd>
+        </dl>
+      </header>
+    </xmp>
+
+    The following snippet shows how one might use headers within a blog. The first header
+    provides introductory content for the page as a whole, and is scoped to the <{body}>
+    element. The second provides introductory content to the primary article of the page:
+
+    <xmp highlight="html">
+      <body>
+        <header>
+          <nav>
+            <a href="/">My Awesome blog</a>
+            <ul>
+              <li><a href="/new-articles">Latest</a></li>
+              <li><a href="/old-articles">Archive</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </nav>
+        </header>
+        <main>
+          <article>
+            <header>
+              <h1>
+                My great post!
+              </h1>
+              <p>Hello world!</p>
+            </header>
+          </article>
+        </main>
+      </body>
+    </xmp>
+
+    The next example shows a misuse of a <{header}>, as its content does not <a>represent</a> an
+    introduction to its parent <a>sectioning content</a>:
+
+    <xmp highlight="html">
+      <article>
+        <h2>Spinning Straw into Gold</h2>
+        <p>A primer on getting rich quick, while avoiding making horrible promises.</p>
+
+        ...
+
+        <header>
+          <h3>Make a point to learn obscure names</h3>
+        </header>
+        ...
+      </article>
+    </xmp>
+
+    Modifying the previous example, the following markup better aligns to the appropriate usage
+    for a <{header}>. Now the content that appropriately introduces the <{article}> is wrapped
+    within a <{header}>, and the content that was previously in a <code>header</code> is now
+    appropriately scoped to a subsection of the <code>article</code>:
+
+    <pre highlight="html">
+      &lt;article>
+        <mark>&lt;header></mark>
+          &lt;h2>Spinning Straw into Gold&lt;/h2>
+          &lt;p>A primer on getting rich quick, while avoiding making horrible promises.&lt;/p>
+        <mark>&lt;/header></mark>
+        <p>This text will guide you through the necessary steps to complete this impossible task...
+
+        <mark>&lt;section></mark>
+          &lt;header>
+            &lt;h3>Make a point to learn obscure names&lt;/h3>
+          &lt;/header>
+          <p>If you are tasked with guessing someone's name, then it should be safe to assume that common names won't get you far...
+        <mark>&lt;/section></mark>
+      &lt;/article>
+    </pre>
+
+  </div>
+
+  <p class="note">
+    The <{header}> element is not <a>sectioning content</a>; it doesn't introduce a new section,
+    though headings within a <code>header</code> will indicate new sections to the page.
+  </p>
+
+  <div class="example">
+    In this example, the page has a page heading given by the <{h1}> element, and two subsections
+    whose headings are given by <{h2}> elements. The content after the <{header}> element is still
+    part of the last subsection started in the <{header}> element, because the <{header}> element
+    doesn't take part in the <a>outline</a> algorithm.
+
+    <xmp highlight="html">
+      <body>
+        <header>
+          <h1>Little Green Guys With Guns</h1>
+          <nav>
+            <ul>
+              <li><a href="/games">Games</a></li>
+              <li><a href="/forum">Forum</a></li>
+              <li><a href="/download">Download</a></li>
+            </ul>
+          </nav>
+          <h2>Important News</h2> <!-- this starts a second subsection -->
+          <!-- this is part of the subsection entitled "Important News" -->
+          <p>To play today's games you will need to update your client.</p>
+          <h2>Games</h2> <!-- this starts a third subsection -->
+        </header>
+        <p>You have three active games:</p>
+        <!-- this is still part of the subsection entitled "Games" -->
+        ...
+    </xmp>
+  </div>
+
+  <p class="note">
+    For cases where a developer wants to nest a <code>header</code> or <code>footer</code> within
+    another <code>header</code>: The <{header}> element can only contain a <{header}> or <{footer}>
+    if they are themselves contained within <a>sectioning content</a>.
+  </p>
+
+  <div class="example">
+    <p>
+      In this example, the <{article}> has a <{header}> which contains an <{aside}> which itself
+      contains a <code>header</code>. This is conforming as the descendant <code>header</code>
+      is contained within the <code>aside</code> element.
+    </p>
+
+    <xmp highlight="html">
+      <article>
+        <header>
+          <h1>Flexbox: The definitive guide</h1>
+          <aside>
+            <header>
+              <h2>About the author: Wes McSilly</h2>
+              <p><a href="./wes-mcsilly/">Contact him! (Why would you?)</a></p>
+            </header>
+            <p>Expert in nothing but Flexbox. Talented circus sideshow.</p>
+          </aside>
+        </header>
+        <p><ins>The guide about Flexbox was supposed to be here, but it turned out Wes wasn't a Flexbox expert either.</ins></p>
+      </article>
+    </xmp>
+
+  </div>
+
+<h4 id="the-footer-element">The <dfn element><code>footer</code></dfn> element</h4>
+
+  <dl class="element">
+    : [=Categories=]:
+    :: [=Flow content=].
+    :: [=Palpable content=].
+
+    : [=Contexts in which this element can be used=]:
+    :: Where [=flow content=] is expected.
+
+    : [=Content model=]:
+    :: [=Flow content=], but with no <{main}> element descendants, or <{header}>, <{footer}>
+        elements that are not descendants of [=sectioning content=] which is a descendant of the
+        <{footer}>.
+
+    : <a>Tag omission in text/html</a>:
+    :: Neither tag is omissible
+
+    : [=Content attributes=]:
+    :: [=Global attributes=]
+
+    : [=Allowed ARIA role attribute values=]:
+    :: <a attr-value for="aria/role"><code>contentinfo</code></a> role (default - <a><em>do not set</em></a>),
+        <a attr-value for="aria/role"><code>group</code></a>,
+        <a attr-value for="aria/role"><code>none</code></a> or
+        <a attr-value for="aria/role"><code>presentation</code></a>.
+
+    : [=Allowed ARIA state and property attributes=]:
+    :: [=Global aria-* attributes=]
+    :: Any <{aria/aria-*}> attributes
+        [[#allowed-aria-roles-states-and-properties|applicable to the allowed roles]].
+
+    : [=DOM interface=]:
+    :: Uses {{HTMLElement}}.
+
+    : DPub Roles:
+    :: <a href="https://www.w3.org/TR/dpub-aria-1.0/#doc-footnote"><code>doc-footnote</code></a>
+  </dl>
+
+  The <{footer}> element <a>represents</a> a footer for its nearest ancestor <{main}>
+  element or <a>sectioning content</a> or <a>sectioning root</a> element. A footer typically
+  contains information about its section, such as who wrote it, links to related documents,
+  copyright data, and the like.
+
+  A <{footer}> element can also contain entire sections <a>representing</a> appendices,
+  indexes, long colophons, verbose license agreements, and other such content.
+
+  When a <{footer}> element's nearest ancestor <a>sectioning root</a> element is the <{body}>
+  element, and it is not a descendant of the <{main}> element or a <a>sectioning content</a>
+  element, then that <{footer}> is scoped to the <{body}> element and represents a footer for
+  the page as a whole.
+
+  Assistive Technology may convey to users the semantics of the <{footer}> element when it applies
+  to the whole page. This information can provide a hint as to the type of content. For example,
+  the <{aria/role}> of the element, which in this case is "content information", can be announced
+  by screen reader software when a user navigates to a <{footer}> element that is scoped to the
+  <{body}> element. User Agents may also provide methods to navigate to a <{footer}> element
+  scoped to the <{body}> element.
+
+  <p class="note">
+    Contact information for the author or editor of a section belongs in an <{address}>
+    element, possibly itself inside a <{footer}>. Bylines and other information that could
+    be suitable for both a <{header}> or a <{footer}> can be placed in either (or neither).
+  </p>
+
+  Footers don't necessarily have to appear at the <em>end</em> of a section, though they usually do.
+
+  <p class="note">
+    The <{footer}> element is not <a>sectioning content</a>; it doesn't introduce a new section.
+  </p>
+
+  <div class="example">
+    Here is a page with two footers, one at the top and one at the bottom, with the same content:
+
+    <xmp highlight="html">
+      <body>
+        <footer><a href="../">Back to index...</a></footer>
+        <div>
+          <h1>Example Page</h1>
+          <p>This is an example</p>
+        </div>
+        <p>Some text explaining the example...</p>
+        <footer><a href="../">Back to index...</a></footer>
+      </body>
+    </xmp>
+  </div>
+
+  <div class="example">
+    Here is an example which shows the <{footer}> element being used both for a site-wide
+    footer and for a section footer.
+
+    <xmp highlight="html">
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>The Ramblings of a Scientist</title>
+        </head>
+        <body>
+          <h1>The Ramblings of a Scientist</h1>
+          <main>
+            <article>
+              <h2>Episode 15</h2>
+              <video src="/fm/015.ogv" controls preload>
+                <p><a href="/fm/015.ogv">Download video</a>.</p>
+              </video>
+              <footer>
+                <!-- footer for article -->
+                <p>Published <time datetime="2009-10-21T18:26-07:00">on 2009/10/21 at 6:26pm</time></p>
+              </footer>
+            </article>
+            <article>
+              <h2>My Favorite Trains</h2>
+              <p>I love my trains. My favorite train of all time is a Köf.</p>
+              <p>It is fun to see them pull some coal cars because they look so dwarfed in comparison.</p>
+              <footer>
+                <!-- footer for article -->
+                <p>Published <time datetime="2009-09-15T14:54-07:00">on 2009/09/15 at 2:54pm</time></p>
+              </footer>
+            </article>
+          </main>
+          <footer>
+            <!-- site wide footer -->
+            <nav>
+              <p>
+                <a href="/credits.html">Credits</a> —
+                <a href="/tos.html">Terms of Service</a> —
+                <a href="/index.html">Blog Index</a>
+              </p>
+            </nav>
+            <p>© 2009 Gordon Freeman</p>
+          </footer>
+        </body>
+      </html>
+    </xmp>
+  </div>
+
+  <div class="example">
+    Some site designs have what is sometimes referred to as "fat footers" — footers that contain a
+    lot of material, including images, links to other articles, links to pages for sending
+    feedback, special offers... in some ways, a whole "front page" in the footer.
+
+    This fragment shows the bottom of a page on a site with a "fat footer":
+
+    <xmp highlight="html">
+      ...
+        <footer>
+          <section>
+            <h2>Articles</h2>
+            <p>
+              <img src="images/somersaults.jpeg" alt>
+              Go to the gym with our somersaults class! Our teacher Jim takes you through the paces in this two-part article.
+              <a href="articles/somersaults/1">Somersaults: Part 1</a>·
+              <a href="articles/somersaults/2">Somersaults: Part 2</a>.
+            </p>
+            <p>
+              <img src="images/kindplus.jpeg" alt>
+              Tired of walking on the edge of a clif<!-- sic -->? Our guest writer Lara shows you how to bumble your way through the bars.
+              <a href="articles/kindplus/1">Read more...</a>
+            </p>
+            <p>
+              <img src="images/crisps.jpeg" alt>
+              The chips are down, now all that's left is a potato. What can you do with it?
+              <a href="articles/crisps/1">Read more...</a>
+            </p>
+          </section>
+          <nav>
+            <ul>
+              <li><a href="/about">About us...</a></li>
+              <li><a href="/feedback">Send feedback!</a></li>
+              <li><a href="/sitemap">Sitemap</a></li>
+            </ul>
+          </nav>
+          <p>
+            <small>© 2018 — <a href="/tos">Terms of Service</a></small>
+          </p>
+        </footer>
+      </body>
+    </xmp>
+  </div>
+
+
+<h4 id="headings-and-sections">Headings and sections</h4>
+
+  The <code>h1</code>–<code>h6</code> elements are headings.
+
+  The first element of <a>heading content</a> in an element of <a>sectioning content</a>
+  <a>represents</a> the heading for that explicit section. Subsequent headings of equal or higher
+  <a>rank</a> start new implied subsections that are part of the previous section's parent
+  section. Subsequent headings of lower <a>rank</a> start new implied subsections that are part
+  of the previous one. In both cases, the element <a>represents</a> the heading of the implied
+  section.
+
+  <code>h1</code>–<code>h6</code> elements must not be used to markup subheadings, subtitles,
+  alternative titles and taglines unless intended to be the heading for a new section or
+  subsection. Instead use the markup patterns in the [[#common-idioms-without-dedicated-elements]]
+  section of the specification.
+
+  Certain elements are said to be <dfn>sectioning roots</dfn>, including <code>blockquote</code>
+  and <{td}> elements. These elements can have their own outlines, but the sections and
+  headings inside these elements do not contribute to the outlines of their ancestors.
+
+  <ul class="brief category-list">
+    <li><{blockquote}></li>
+    <li><{body}></li>
+    <li><{details}></li>
+    <li><{dialog}></li>
+    <li><{fieldset}></li>
+    <li><{figure}></li>
+    <li><{td}></li>
+  </ul>
+
+  <a>Sectioning content</a> elements are always considered subsections of their nearest ancestor
+  <a>sectioning root</a> or their nearest ancestor element of <a>sectioning content</a>, whichever
+  is nearest, regardless of what implied sections other headings may have created.
+
+  <div class="example">
+    For the following fragment:
+
+    <xmp highlight="html">
+      <body>
+        <h1>Foo</h1>
+        <h2>Bar</h2>
+        <blockquote>
+          <h3>Bla</h3>
+        </blockquote>
+        <p>Baz</p>
+        <h2>Quux</h2>
+        <section>
+          <h3>Thud</h3>
+        </section>
+        <p>Grunt</p>
+      </body>
+    </xmp>
+
+    ...the structure would be:
+
+    1. Foo (heading of explicit <code>body</code> section, containing the "Grunt" paragraph)
+        1. Bar (heading starting implied section, containing a block quote and the "Baz" paragraph)
+        2. Quux (heading starting implied section with no content other than the heading itself)
+        3. Thud (heading of explicit <code>section</code> section)
+
+    Notice how the <code>section</code> ends the earlier implicit section so that a later paragraph
+    ("Grunt") is back at the top level.
+  </div>
+
+  Sections may contain headings of a <a>rank</a> equal to their section nesting level.
+  Authors should use headings of the appropriate <a>rank</a> for the section's nesting level.
+
+  Authors are also encouraged to explicitly wrap sections in elements of <a>sectioning content</a>,
+  instead of relying on the implicit sections generated by having multiple headings in one element
+  of <a>sectioning content</a>.
+
+  <div class="example">
+    For example, the following is correct:
+
+    <xmp highlight="html">
+      <body>
+        <h1>Apples</h1>
+        <p>Apples are fruit.</p>
+        <section>
+          <h2>Taste</h2>
+          <p>They taste lovely.</p>
+          <h3>Sweet</h3>
+          <p>Red apples are sweeter than green ones.</p>
+          <h3>Color</h3>
+          <p>Apples come in various colors.</p>
+        </section>
+      </body>
+    </xmp>
+
+    However, the same document would be more clearly expressed as:
+
+    <xmp highlight="html">
+      <body>
+        <h1>Apples</h1>
+        <p>Apples are fruit.</p>
+        <section>
+          <h2>Taste</h2>
+          <p>They taste lovely.</p>
+          <section>
+            <h3>Sweet</h3>
+            <p>Red apples are sweeter than green ones.</p>
+          </section>
+          <section>
+            <h3>Color</h3>
+            <p>Apples come in various colors.</p>
+          </section>
+        </section>
+      </body>
+    </xmp>
+
+    Both of the documents above are semantically identical and would produce the same outline in
+    compliant user agents.
+  </div>
+
+<h5 id="creating-an-outline">Creating an outline</h5>
+
+  <p class="warning">
+    There are currently no known native implementations of the outline algorithm in graphical
+    browsers or assistive technology user agents, although the algorithm is implemented in other
+    software such as conformance checkers and browser extensions. Additionally, there is an
+    <a href="https://github.com/whatwg/html/pull/3499">alternate outline algorithm proposal</a>
+    being developed, as well as proposals to modify the existing algorithm
+    (See <a href="https://github.com/w3c/html/pull/1005">W3C HTML issue #1005</a> and
+    <a href="https://github.com/w3c/html/issues/830">W3C HTML issue #830</a>).
+    Any implementation and usage of these different proposals will be tracked, and may result
+    in significant future changes to the <a>outline</a> algorithm.
+
+    Therefore, the <a>outline</a> algorithm cannot be relied upon to convey document structure
+    to users. Authors should use heading <a>rank</a> (<code>h1</code>-<code>h6</code>) to
+    convey document structure.
+  </p>
+
+  <p>
+    <em>This section is non-normative</em>
+  </p>
+
+  This section defines an algorithm for creating an outline for a <a>sectioning content</a>
+  element or a <a>sectioning root</a> element. It is defined in terms of a walk over the nodes
+  of a DOM tree, in <a>tree order</a>, with each node being visited when it is <i>entered</i> and
+  when it is <i>exited</i> during the walk. Each time a node is visited, it can be seen as
+  triggering an <i>enter</i> or <i>exit</i> event.
+
+    <div class="example">
+      The following pseudocode fragment:
+
+      <pre>
+        visitNode(node)
+          onEnter(node)
+          child = node.firstChild
+          while(child != null)
+            visitNode(child)
+            child = child.nextSibling
+          onExit(node)
+      </pre>
+
+      ...exemplifies how to recursively traverse the node tree and when to trigger the <i>enter</i>
+      and <i>exit</i> events.
+      See the <a href="#javascript-tree-walk-example">JavaScript example</a> for a possible,
+      non-recursive JavaScript implementation.
+    </div>
+
+  The <dfn>outline</dfn> for a <a>sectioning content</a> element or a <a>sectioning root</a>
+  element consists of a list of one or more potentially nested <a>sections</a>. The element for
+  which an <a>outline</a> is created is said to be <dfn>the outline's owner</dfn>.
+
+  A <dfn>section</dfn> is a container that corresponds to some nodes in the original DOM tree. Each
+  section can have one heading associated with it, and can contain any number of further nested
+  subsections. The algorithm for the outline also associates each node in the DOM tree with a
+  particular section and potentially a heading. (The sections in the outline aren't
+  <a element>section</a> elements, though some may correspond to such elements — they are
+  merely conceptual sections.)
+
+  <div class="example">
+    The following markup fragment:
+
+    <xmp highlight="html">
+      <body>
+        <h1>A</h1>
+        <p>B</p>
+        <h2>C</h2>
+        <p>D</p>
+        <h2>E</h2>
+        <p>F</p>
+      </body>
+    </xmp>
+
+    ...results in the following outline being created for the <code>body</code> node (and thus the
+    entire document):
+
+    1. Section created for <code>body</code> node. Associated with heading "A". Also associated
+        with paragraph "B". Nested sections:
+        1. Section implied for first <code>h2</code> element. Associated with heading "C". Also
+            associated with paragraph "D". No nested sections.
+        2. Section implied for second <code>h2</code> element. Associated with heading "E". Also
+            associated with paragraph "F". No nested sections.
+  </div>
+
+    The algorithm that must be followed during a walk of a DOM subtree rooted at a
+    <a>sectioning content</a> element or a <a>sectioning root</a> element to determine that
+    element's <a>outline</a> is as follows:
+
+    1. Let <var>current outline owner</var> be null. (It holds the element whose <a>outline</a> is
+        being created.)
+    2. Let <var>current section</var> be null. (It holds a pointer to a <a>section</a>, so that
+        elements in the DOM can all be associated with a section.)
+    3. Create a stack to hold elements, which is used to handle nesting. Initialize this stack to
+        empty.
+    4. Walk over the DOM in <a>tree order</a>, starting with the <a>sectioning content</a> element
+        or <a>sectioning root</a> element at the root of the subtree for which an outline is to be
+        created, and trigger the first relevant step below for each element as the walk enters and
+        exits it.
+
+        <dl class="switch">
+          <dt>When exiting an element, if that element is the element at the top of the stack</dt>
+          <dd>
+            <p class="note">
+              The element being exited is a <a>heading content</a> element or an element with a
+              <{global/hidden}> attribute.
+            </p>
+
+            Pop that element from the stack.
+          </dd>
+
+          <dt>If the top of the stack is a <a>heading content</a> element or an element with a
+            <{global/hidden}> attribute</dt>
+          <dd>Do nothing.</dd>
+
+          <dt>When entering an element with a <{global/hidden}> attribute</dt>
+          <dd>
+            Push the element being entered onto the stack. (This causes the algorithm to skip that
+            element and any descendants of the element.)
+          </dd>
+
+          <dt>When entering a <a>sectioning content</a> element</dt>
+          <dd>
+            Run these steps:
+            1. If <var>current outline owner</var> is not null, run these substeps:
+                1. If the <var>current section</var> has no heading, create an implied heading and
+                    let that be the heading for the <var>current section</var>.
+                2. Push <var>current outline owner</var> onto the stack.
+            2. Let <var>current outline owner</var> be the element that is being entered.
+            3. Let <var>current section</var> be a newly created <a>section</a> for the
+                <var>current outline owner</var> element.
+            4. Associate <var>current outline owner</var> with <var>current section</var>.
+            5. Let there be a new <a>outline</a> for the new <var>current outline owner</var>,
+                initialized with just the new <var>current section</var> as the only <a>section</a>
+                in the outline.
+          </dd>
+
+          <dt>When exiting a <a>sectioning content</a> element, if the stack is not empty</dt>
+          <dd>
+            Run these steps:
+            1. If the <var>current section</var> has no heading, create an implied heading and let
+                that be the heading for the <var>current section</var>.
+            2. Pop the top element from the stack, and let the <var>current outline owner</var> be
+                that element.
+            3. Let <var>current section</var> be the last section in the <a>outline</a> of the
+                <var>current outline owner</var> element.
+            4. Append the <a>outline</a> of the <a>sectioning content</a> element being exited to
+                the <var>current section</var>. (This does not change which section is the last
+                section in the <a>outline</a>.)
+          </dd>
+
+          <dt>When entering a <a>sectioning root</a> element</dt>
+          <dd>
+            Run these steps:
+            1. If <var>current outline owner</var> is not null, push
+                <var>current outline owner</var> onto the stack.
+            2. Let <var>current outline owner</var> be the element that is being entered.
+            3. Let <var>current outline owner</var>'s <i>parent section</i> be
+                <var>current section</var>.
+            4. Let <var>current section</var> be a newly created <a>section</a> for the
+                <var>current outline owner</var> element.
+            5. Let there be a new <a>outline</a> for the new <var>current outline owner</var>,
+                initialized with just the new <var>current section</var> as the only <a>section</a>
+                in the outline.
+          </dd>
+
+          <dt>When exiting a <a>sectioning root</a> element, if the stack is not empty</dt>
+          <dd>
+            Run these steps:
+            1. If the <var>current section</var> has no heading, create an implied heading and let
+                that be the heading for the <var>current section</var>.
+            2. Let <var>current section</var> be <var>current outline owner</var>'s
+                <i>parent section</i>.
+            3. Pop the top element from the stack, and let the <var>current outline owner</var> be
+                that element.
+          </dd>
+
+          <dt>When exiting a <a>sectioning content</a> element or a <a>sectioning root</a> element
+            (when the stack is empty)</dt>
+          <dd>
+            <p class="note">
+              The <var>current outline owner</var> is the element being exited, and it is the
+              <a>sectioning content</a> element or a <a>sectioning root</a> element at the root of
+              the subtree for which an outline is being generated.
+            </p>
+
+            If the <var>current section</var> has no heading, create an implied heading and
+            let that be the heading for the <var>current section</var>.
+
+            Skip to the next step in the overall set of steps. (The walk is over.)
+          </dd>
+
+          <dt>When entering a <a>heading content</a> element</dt>
+          <dd>
+            If the <var>current section</var> has no heading, let the element being entered be the
+            heading for the <var>current section</var>.
+
+            Otherwise, if the heading of the last section of the <a>outline</a> of the
+            <var>current outline owner</var> is an implied heading, or if the heading being
+            entered has a <a>rank</a> equal to or higher than the heading of the last section
+            of the <a>outline</a> of the <var>current outline owner</var>, then
+            create a new <a>section</a> and append it to the <a>outline</a> of the
+            <var>current outline owner</var> element, so that this new section is the new last
+            section of that outline. Let <var>current section</var> be that new section. Let the
+            element being entered be the new heading for the <var>current section</var>.
+
+            Otherwise, run these substeps:
+            1. Let <var>candidate section</var> be <var>current section</var>.
+            2. <i>Heading loop</i>: If the element being entered has a <a>rank</a> lower than the
+                <a>rank</a> of the heading of the <var>candidate section</var>, then create a new
+                <a>section</a>, and append it to <var>candidate section</var>. (This does not change
+                which section is the last section in the outline.) Let <var>current section</var> be
+                this new section. Let the element being entered be the new heading for the
+                <var>current section</var>. Abort these substeps.
+            3. Let <var>new candidate section</var> be the <a>section</a> that contains
+                <var>candidate section</var> in the <a>outline</a> of
+                <var>current outline owner</var>.
+            4. Let <var>candidate section</var> be <var>new candidate section</var>.
+            5. Return to the step labeled <i>heading loop</i>.
+
+            Push the element being entered onto the stack. (This causes the algorithm to skip any
+            descendants of the element.)
+
+            <p class="note">
+              Recall that <code>h1</code> has the <em>highest</em> rank, and <code>h6</code> has
+              the lowest rank.
+            </p>
+          </dd>
+
+          <dt>Otherwise</dt>
+          <dd>Do nothing.</dd>
+        </dl>
+
+        In addition, whenever the walk exits a node, after doing the steps above, if the node is
+        not associated with a <a>section</a> yet,
+        <dfn lt="associate section">associate the node with the <a>section</a></dfn>
+        <var>current section</var>.
+
+    5. Associate all non-element nodes that are in the subtree for which an outline is being
+        created with the <a>section</a> with which their parent element is associated.
+    6. Associate all nodes in the subtree with the heading of the <a>section</a> with which they
+        are associated, if any.
+
+    The tree of sections created by the algorithm above, or a proper subset thereof, must be used
+    when generating document outlines, for example when generating tables of contents.
+
+    The outline created for <a href="#the-body-element">the <code>body</code> element</a> of
+      a {{Document}} is the <a>outline</a> of the entire document.
+
+    When creating an interactive table of contents, entries should jump the user to the relevant
+    <a>sectioning content</a> element, if the <a>section</a> was created for a real element in the
+    original document, or to the relevant <a>heading content</a> element, if the <a>section</a> in
+    the tree was generated for a heading in the above process.
+
+    <p class="note">
+      Selecting the first <a>section</a> of the document therefore always takes the user to the top
+      of the document, regardless of where the first heading in the <code>body</code> is to be
+      found.
+    </p>
+
+    The <dfn>outline depth</dfn> of a <a>heading content</a> element associated with a
+    <a>section</a> <var>section</var> is the number of <a>sections</a> that are ancestors of
+    <var>section</var> in the outermost <a>outline</a> that <var>section</var> finds itself in when
+    the <a>outlines</a> of its {{Document}}'s elements are created, plus 1. The
+    <a>outline depth</a> of a <a>heading content</a> element not associated with a <a>section</a>
+    is 1.
+
+    User agents should provide default headings for sections that do not have explicit section
+    headings.
+
+    <div class="example">
+      Consider the following snippet:
+
+      <xmp highlight="html">
+        <body>
+          <nav>
+            <p><a href="/">Home</a></p>
+          </nav>
+          <p>Hello world.</p>
+          <aside>
+            <p>My cat is cute.</p>
+          </aside>
+        </body>
+      </xmp>
+
+      Although it contains no headings, this snippet has three sections: a document (the
+      <{body}>) with two subsections (a <{nav}> and an <{aside}>). A user
+      agent could present the outline as follows:
+
+      1. Untitled document
+          1. Navigation
+          2. Sidebar
+
+      These default headings ("Untitled document", "Navigation", "Sidebar") are not specified by
+      this specification, and might vary with the user's language, the page's language, the user's
+      preferences, the user agent implementor's preferences, etc.
+    </div>
+
+    <div class="example" id="javascript-tree-walk-example">
+      The following JavaScript function shows how the tree walk could be implemented. The
+      <var>root</var> argument is the root of the tree to walk (either a <a>sectioning content</a>
+      element or a <a>sectioning root</a> element), and the <var>enter</var> and <var>exit</var>
+      arguments are callbacks that are called with the nodes as they are entered and exited.
+      [[!ECMA-262]]
+
+      <pre highlight="javascript">
+        function (root, enter, exit) {
+          var node = root;
+          start: while (node) {
+            enter(node);
+            if (node.firstChild) {
+              node = node.firstChild;
+              continue start;
+            }
+            while (node) {
+              exit(node);
+              if (node == root) {
+                node = null;
+              } else if (node.nextSibling) {
+                node = node.nextSibling;
+                continue start;
+              } else {
+                node = node.parentNode;
+              }
+            }
+          }
+        }
+      </pre>
+    </div>
+
+<h4 id="sections-usage-summary">Usage summary</h4>
+
+  <em>This section is non-normative.</em>
+
+  <table class="vertical-summary-table">
+    <thead>
+      <tr>
+        <th rowspan="2">Element</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2"><{body}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <!DOCTYPE html>
+            <html>
+              <head> <title>Steve Hill's Home Page</title> </head>
+              <body> <p>Hard Trance is My Life.</p> </body>
+            </html>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{article}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <article>
+              <h2>Masif tee</h2>
+              <img src="/example.jpg" alt="Yellow smiley face with the caption 'masif'">
+              <p>My fave Masif tee so far!</p>
+              <footer>Posted 2 days ago</footer>
+            </article>
+            <article>
+              <h2>Masif's birthday</h2>
+              <img src="/example2.jpg" alt="">
+              <p>Happy 2nd birthday Masif Saturdays!!!</p>
+              <footer>Posted 3 weeks ago</footer>
+            </article>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{section}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <h1>Biography</h1>
+            <section>
+              <h2>The facts</h2>
+              <p>1500+ shows, 14+ countries</p>
+            </section>
+            <section>
+              <h2>2010/2011 figures per year</h2>
+              <p>100+ shows, 8+ countries</p>
+            </section>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{nav}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <nav>
+              <ul>
+                <li><a href="/">Home</a>
+                <li><a href="/biog.html">Bio</a>
+                <li><a href="/discog.html">Discog</a>
+              </ul>
+            </nav>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{aside}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <h1>Music</h1>
+            <p>As any burner can tell you, the event has a lot of trance.</p>
+            <aside>You can buy the music we played at our <a href="buy.html">playlist page</a>.</aside>
+            <p>This year we played a kind of trance that originated in Belgium, Germany, and the Netherlands in the mid 90s.</p>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{h1}>–<code>h6</code></td>
+        <td>A section heading</td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <h1>The Guide To Music On The Playa</h1>
+            <h2>The Main Stage</h2>
+            <p>If you want to play on a stage, you should bring one.</p>
+            <h2>Amplified Music</h2>
+            <p>Amplifiers up to 300W or 90dB are welcome.</p>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{header}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <article>
+              <header>
+              <h2>Hard Trance is My Life</h2>
+              <p>By DJ Steve Hill and Technikal</p>
+              </header>
+              <p>The album with the amusing punctuation has red artwork.</p>
+            </article>
+          </xmp>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2"><{footer}></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <xmp highlight="html">
+            <article>
+              <h2>Hard Trance is My Life</h2>
+              <p>The album with the amusing punctuation has red artwork.</p>
+              <footer>
+                <p>Artists: DJ Steve Hill and Technikal</p>
+              </footer>
+            </article>
+          </xmp>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<h5 id="article-or-section">Article or section?</h5>
+
+  <em>This section is non-normative.</em>
+
+  A <{section}> forms part of something else. An <{article}> is its own thing. But
+  how does one know which is which? Mostly the real answer is "it depends on author intent".
+
+  For example, one could imagine a book with a "Granny Smith" chapter that just said "These juicy,
+  green apples make a great filling for apple pies."; that would be a <{section}> because
+  there'd be lots of other chapters on (maybe) other kinds of apples.
+
+  On the other hand, one could imagine a tweet or tumblr post or newspaper
+  classified ad that just said "Granny Smith. These juicy, green apples make a great filling for
+  apple pies."; it would then be <{article}>s because that was the whole thing.
+
+  Comments on an article are not part of the <{article}> on which they are commenting, but are
+  related, therefore may be contained in their own nested <{article}>.
+
+</section>

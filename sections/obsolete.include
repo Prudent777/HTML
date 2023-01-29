@@ -1,0 +1,1884 @@
+<section>
+
+<!--
+
+    Obsolete
+
+  This section produces Chapter 11: Obsolete Features
+  https://w3c.github.io/html/obsolete.html
+
+  It covers features which are deprecated and should or must not be used in conforming
+  HTML content, but which user agents need to handle because there is a body of legacy
+  content using them.
+
+  Examples include:
+  - appcache
+  - keygen
+  - marquee
+  - Plugins
+
+-->
+
+<h2 id="obsolete">Obsolete features</h2>
+
+<h3 id="obsolete-but-conforming-features">Obsolete but conforming features</h3>
+
+  Features listed in this section will trigger warnings in conformance checkers.
+
+  Authors should not specify a <{img/border}> attribute on an <{img}> element. If the
+  attribute is present, its value must be the string "<code>0</code>". CSS should be used instead.
+
+  Authors should not specify a <code>charset</code> attribute on a <{script}> element. If the
+  attribute is present, its value must be an [=ASCII case-insensitive=] match for the string
+  "<code>utf-8</code>". [[!ENCODING]]
+
+  Authors should not specify a <{script/language}> attribute on a <{script}> element. If
+  the attribute is present, its value must be an [=ASCII case-insensitive=] match for the string
+  "<code>JavaScript</code>" and either the <{script/type}> attribute must be omitted or its value
+  must be an [=ASCII case-insensitive=] match for the string "<code>text/javascript</code>".
+  The attribute should be entirely omitted instead (with the value "<code>JavaScript</code>", it has
+  no effect), or replaced with use of the <{script/type}> attribute.
+
+  Authors should not specify the <{a/name}> attribute on <{a}> elements. If the
+  attribute is present, its value must not be the empty string and must neither be equal to the
+  value of any of the [=IDs=] in the element's [=tree=] other than the element's own
+  [=ID=] if any, nor be equal to the value of any of the other <{a/name}> attributes on
+  <{a}> elements in the element's [=tree=]. If this attribute is present and the
+  element has an [=ID=], then the attribute's value must be equal to the element's [=ID=]. In
+  earlier versions of the language, this attribute was intended as a way to specify possible targets
+  for <a for="url">fragments</a> in <a for="url">URLs</a>. The <{global/id}> attribute should be used instead.
+
+  Authors should not, but may despite requirements to the contrary elsewhere in this specification,
+  specify the <{input/maxlength}> and <{input/size}> attributes on <{input}> elements
+  whose <{input/type}> attributes are in the <{input/Number}> state. One
+  valid reason for using these attributes regardless is to help legacy user agents that do not
+  support <{input}> elements with <code>type="number"</code> to still render the text control with a
+  useful width.
+
+  <h4 id="warnings-for-obsolete-but-conforming-features">Warnings for obsolete but conforming features</h4>
+
+  To ease the transition from HTML Transitional documents to the language defined in <em>this</em>
+  specification, and to discourage certain features that are only allowed in very few circumstances,
+  conformance checkers must warn the user when the following features are used in a document. These
+  are generally old obsolete features that have no effect, and are allowed only to distinguish
+  between likely mistakes (regular conformance errors) and mere vestigial markup or unusual and
+  discouraged practices (these warnings).
+
+  The following features must be categorized as described above:
+
+  * The presence of a <{img/border}> attribute on an <{img}> element if its value is the string
+    "<code>0</code>".
+
+  * The presence of a <code>charset</code> attribute on a <{script}> element if its value is an
+    [=ASCII case-insensitive=] match for "<code>utf-8</code>".
+
+  * The presence of a <{script/language}> attribute on a <{script}> element if its value is an
+    [=ASCII case-insensitive=] match for the string "<code>JavaScript</code>" and if there is no
+    <{script/type}> attribute or there is and its value is an [=ASCII case-insensitive=] match
+    for the string "<code>text/javascript</code>".
+
+  * The presence of a <{a/name}> attribute on an <{a}> element, if its value is not the empty string.
+
+  * The presence of a <{input/maxlength}> attribute on an <{input}> element whose <{input/type}>
+    attribute is in the <{input/Number}> state.
+
+  * The presence of a <{input/size}> attribute on an <{input}> element whose <{input/type}>
+    attribute is in the <{input/Number}> state.
+
+  Conformance checkers must distinguish between pages that have no conformance errors and have none
+  of these obsolete features, and pages that have no conformance errors but do have some of these
+  obsolete features.
+
+  <p class="example">
+    For example, a validator could report some pages as "Valid HTML" and others as "Valid HTML with
+    warnings".
+  </p>
+
+<h3 id="non-conforming-features">Non-conforming features</h3>
+
+  Elements in the following list are entirely obsolete, and must not be used by authors:
+
+  : <dfn element><code>acronym</code></dfn>
+  :: Use <{abbr}> instead.
+
+  : <dfn element><code>bgsound</code></dfn>
+  :: Use <{audio}> instead.
+
+  : <dfn element><code>dir</code></dfn>
+  :: Use <{ul}> instead.
+
+  : <code>frame</code>
+  : <code>frameset</code>
+  : <dfn element><code>noframes</code></dfn>
+  :: Either use <{iframe}> and CSS instead, or use server-side includes to generate
+      complete pages with the various invariant parts merged in.
+
+  : <code>hgroup</code>
+  :: To mark up subheadings, consider putting the subheading into a <{p}> element after
+       the <{h1}>—<{h6}> element containing the main heading, or putting the subheading
+       directly within the <code>h1</code>-<code>h6</code> element containing the
+       main heading, but separated from the main heading by punctuation and/or within,
+       for example, a <code>span class="subheading"</code> element with differentiated styling.
+
+       Headings and subheadings, alternative titles, or taglines can be grouped using
+       the <{header}> or <{div}> elements.
+
+  : <dfn element><code>isindex</code></dfn>
+  :: Use an explicit <{form}> and <{input/Text|text control}> combination instead.
+
+  : <dfn element><code>listing</code></dfn>
+  :: Use <{pre}> and <{code}> instead.
+
+  : <dfn element><code>nextid</code></dfn>
+  :: Use GUIDs instead.
+
+  : <dfn element><code>noembed</code></dfn>
+  :: Use <{object}> instead of <{embed}> when fallback is necessary.
+
+  : <dfn element><code>plaintext</code></dfn>
+  :: Use the "<code>text/plain</code>" [=MIME type=] instead.
+
+  : <dfn element><code>strike</code></dfn>
+  :: Use <{del}> instead if the element is marking an edit, otherwise use <{s}> instead.
+
+  : <dfn element><code>xmp</code></dfn>
+  :: Use <{pre}> and <{code}> instead, and escape "<code>&lt;</code>" and
+      "<code>&amp;</code>" characters as "<code>&amp;lt;</code>" and "<code>&amp;amp;</code>"
+      respectively.
+
+  : <dfn element><code>basefont</code></dfn>
+  : <dfn element><code>big</code></dfn>
+  : <dfn element><code>blink</code></dfn>
+  : <dfn element><code>center</code></dfn>
+  : <dfn element><code>font</code></dfn>
+  : <{marquee}>
+  : <dfn element><code>menu</code></dfn>
+  : <dfn element><code>menuitem</code></dfn>
+  : <dfn element><code>multicol</code></dfn>
+  : <dfn element><code>nobr</code></dfn>
+  : <dfn element><code>spacer</code></dfn>
+  : <dfn element><code>tt</code></dfn>
+  :: Use appropriate elements or CSS instead.
+
+      Where the <{tt}> element would have been used for marking up keyboard input,
+      consider the <{kbd}> element; for variables, consider the <{var}> element;
+      for computer code, consider the <{code}> element; and for computer output, consider
+      the <{samp}> element.
+
+      Similarly, if the <{big}> element is being used to denote a heading, consider using
+      the <{h1}> element; if it is being used for marking up important passages, consider
+      the <{strong}> element; and if it is being used for highlighting text for reference
+      purposes, consider the <{mark}> element.
+
+      See also the <a href="#text-level-semantics-usage-summary">text-level semantics usage summary</a> for more suggestions with examples.
+
+  <hr />
+
+  The following attributes are obsolete (though the elements are still part of the language), and
+  must not be used by authors:
+
+  : <dfn element-attr for="a"><code>charset</code></dfn> on <{a}> elements
+  : <dfn element-attr for="link"><code>charset</code></dfn> on <{link}> elements
+  :: Use an HTTP <code>Content-Type</code> header on the linked resource instead.
+
+  : <dfn element-attr for="script"><code>charset</code></dfn> on <{script}> elements
+     (except as noted in the previous section)
+  :: Omit the attribute. Both documents and scripts are required to use <a>UTF-8</a>. It is
+     redundant to specify it on the <{script}> element since it inherits from the document.
+
+  : <dfn element-attr for="a"><code>coords</code></dfn> on <{a}> elements
+  : <dfn element-attr for="a"><code>shape</code></dfn> on <{a}> elements
+  :: Use <{area}> instead of <{a}> for image maps.
+
+  : <dfn element-attr for="a"><code>methods</code></dfn> on <{a}> elements
+  : <dfn element-attr for="link"><code>methods</code></dfn> on <{link}> elements
+  :: Use the HTTP OPTIONS feature instead.
+
+  : <dfn element-attr for="a"><code>name</code></dfn> on <{a}> elements (except as noted in the
+      previous section)
+  : <dfn element-attr for="embed"><code>name</code></dfn> on <{embed}> elements
+  : <dfn element-attr for="img"><code>name</code></dfn> on <{img}> elements
+  : <dfn element-attr for="option"><code>name</code></dfn> on <{option}> elements
+  :: Use the <{global/id}> attribute instead.
+
+  : <dfn element-attr for="a"><code>urn</code></dfn> on <{a}> elements
+  : <dfn element-attr for="link"><code>urn</code></dfn> on <{link}> elements
+  :: Specify the preferred persistent identifier using the <{link/href}> attribute instead.
+
+  : <dfn element-attr for="form"><code>accept</code></dfn> on <{form}> elements
+  :: Use the <{input/accept}> attribute directly on the <{input}> elements instead.
+
+  : <dfn element-attr for="area"><code>nohref</code></dfn> on <{area}> elements
+  :: Omitting the <{links/href}> attribute is sufficient; the <code>nohref</code> attribute is
+      unnecessary. Omit it altogether.
+
+  : <dfn element-attr for="head"><code>profile</code></dfn> on <{head}> elements
+  :: When used for declaring which <code>meta</code> terms are used in the document, unnecessary;
+      omit it altogether, and [=register the names=].
+  :: When used for triggering specific user agent behaviors: use a <{link}> element instead.
+
+  : <dfn element-attr for="html"><code>version</code></dfn> on <{html}> elements
+  :: Unnecessary. Omit it altogether.
+
+  : <dfn element-attr for="input"><code>ismap</code></dfn> on <{input}> elements
+  :: Unnecessary. Omit it altogether. All <{input}> elements with a <{input/type}> attribute in
+      the <{input/Image|Image Button}> state are processed as server-side image maps.
+
+  : <dfn element-attr for="input"><code>usemap</code></dfn> on <{input}> elements
+  :: Use <{img}> instead of <{input}> for image maps.
+
+  : <dfn element-attr for="iframe"><code>longdesc</code></dfn> on <{iframe}> elements
+  :: Use a regular <{a}> element to link to the description.
+
+  : <dfn element-attr for="img"><code>lowsrc</code></dfn> on <{img}> elements
+  :: Use a progressive JPEG image (given in the <{img/src}> attribute), instead of using two
+      separate images.
+
+  : <dfn element-attr for="link"><code>target</code></dfn> on <{link}> elements
+  :: Unnecessary. Omit it altogether.
+
+  : <dfn element-attr for="meta"><code>scheme</code></dfn> on <{meta}> elements
+  :: If more than one scheme needs to be declared for a <{meta}> element
+      make the scheme declaration part of the value.
+
+  : <dfn element-attr for="object"><code>archive</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>classid</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>code</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>codebase</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>codetype</code></dfn> on <{object}> elements
+  :: Use the <{object/data}> and <{object/type}> attributes to invoke [=plugins=]. To set
+      parameters with these names in particular, the <{param}> element can be used.
+
+  : <dfn element-attr for="object"><code>declare</code></dfn> on <{object}> elements
+  :: Repeat the <{object}> element completely each time the resource is to be reused.
+
+  : <dfn element-attr for="object"><code>standby</code></dfn> on <{object}> elements
+  :: Optimize the linked resource so that it loads quickly or, at least, incrementally.
+
+  : <dfn element-attr for="param"><code>type</code></dfn> on <{param}> elements
+  : <dfn element-attr for="param"><code>valuetype</code></dfn> on <{param}> elements
+  :: Use the <{param/name}> and <{param/value}> attributes without declaring value types.
+
+  : <dfn element-attr for="script"><code>language</code></dfn> on <{script}> elements (except as
+      noted in the previous section)
+  :: For Javascript, do nothing. For other content, use the <{script/type}> attribute instead.
+
+  : <dfn element-attr for="script"><code>event</code></dfn> on <{script}> elements
+  : <dfn element-attr for="script"><code>for</code></dfn> on <{script}> elements
+  :: Use DOM events mechanisms to register event listeners. [[!DOM]]
+
+  : <dfn element-attr for="table"><code>datapagesize</code></dfn> on <{table}> elements
+  :: Unnecessary. Omit it altogether.
+
+  : <dfn element-attr for="table"><code>summary</code></dfn> on <{table}> elements
+  :: Use one of the [[#sec-techniques-for-describing-tables|techniques]] given in the <code>table</code>
+      section instead.
+
+  : <dfn element-attr for="td"><code>abbr</code></dfn> on <{td}> elements
+  :: Use text that begins in an unambiguous and terse manner, and include any more elaborate text
+      after that. The <{global/title}> attribute can also be useful in including more detailed
+      text, so that the cell's contents can be made terse. If it's a heading, use <{th}>
+      (which has an <{th/abbr}> attribute).
+
+  : <dfn element-attr for="td"><code>axis</code></dfn> on <{td}> and <{th}> elements
+  :: Use the <{th/scope}> attribute on the relevant <{th}>.
+
+  : <dfn element-attr for="td"><code>scope</code></dfn> on <{td}> elements
+  :: Use <{th}> elements for heading cells.
+
+  : <dfn element-attr for="data"><code>datasrc</code></dfn> on <{a}>, <{button}>,
+      <{div}>, <{frame}>, <{iframe}>, <{img}>, <{input}>, <{label}>, <{legend}>, <{marquee}>,
+      <{object}>, <{option}>, <{select}>, <{a}>, <{table}>, and <{textarea}> elements
+  : <dfn element-attr for="data"><code>datafld</code></dfn> on <{a}>, <{button}>,
+      <{div}>, <{fieldset}>, <{frame}>, <{iframe}>, <{img}>, <{input}>, <{label}>, <{legend}>,
+      <{marquee}>, <{object}>, <{param}>, <{select}>, <{a}>, and <{textarea}> elements
+  : <dfn element-attr for="data"><code>dataformatas</code></dfn> on <{button}>, <{div}>,
+      <{input}>, <{label}>, <{legend}>, <{marquee}>, <{object}>, <{option}>, <{select}>, <{a}>,
+      and <{table}> elements
+  :: Use script and a mechanism such as <code>XMLHttpRequest</code> to populate the page
+      dynamically. [[!XHR]]
+
+  : <dfn element-attr for="body"><code>alink</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>bgcolor</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>bottommargin</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>leftmargin</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>link</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>marginheight</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>marginwidth</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>rightmargin</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>text</code></dfn> on <{body}> elements
+  : <dfn element-attr for="body"><code>topmargin</code></dfn> on <{body}> elements <!-- W3C -->
+  : <dfn element-attr for="body"><code>vlink</code></dfn> on <{body}> elements
+  : <dfn element-attr for="br"><code>clear</code></dfn> on <{br}> elements
+  : <dfn element-attr for="caption"><code>align</code></dfn> on <{caption}> elements
+  : <dfn element-attr for="col"><code>align</code></dfn> on <{col}> elements
+  : <dfn element-attr for="col"><code>char</code></dfn> on <{col}> elements
+  : <dfn element-attr for="col"><code>charoff</code></dfn> on <{col}> elements
+  : <dfn element-attr for="col"><code>valign</code></dfn> on <{col}> elements
+  : <dfn element-attr for="col"><code>width</code></dfn> on <{col}> elements
+  : <dfn element-attr for="div"><code>align</code></dfn> on <{div}> elements
+  : <dfn element-attr for="dl"><code>compact</code></dfn> on <{dl}> elements
+  : <dfn element-attr for="embed"><code>align</code></dfn> on <{embed}> elements
+  : <dfn element-attr for="embed"><code>hspace</code></dfn> on <{embed}> elements
+  : <dfn element-attr for="embed"><code>vspace</code></dfn> on <{embed}> elements
+  : <dfn element-attr for="frame"><code>bordercolor</code></dfn> on <{frame}> elements
+  : <dfn element-attr for="hr"><code>align</code></dfn> on <{hr}> elements
+  : <dfn element-attr for="hr"><code>color</code></dfn> on <{hr}> elements
+  : <dfn element-attr for="hr"><code>noshade</code></dfn> on <{hr}> elements
+  : <dfn element-attr for="hr"><code>size</code></dfn> on <{hr}> elements
+  : <dfn element-attr for="hr"><code>width</code></dfn> on <{hr}> elements
+  : <dfn element-attr for="headings"><code>align</code></dfn> on <{h1}>—<{h6}> elements
+  : <dfn element-attr for="iframe"><code>align</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>allowtransparency</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>frameborder</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>framespacing</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>hspace</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>marginheight</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>marginwidth</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>scrolling</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="iframe"><code>vspace</code></dfn> on <{iframe}> elements
+  : <dfn element-attr for="input"><code>align</code></dfn> on <{input}> elements
+  : <dfn element-attr for="input"><code>border</code></dfn> on <{input}> elements
+  : <dfn element-attr for="input"><code>hspace</code></dfn> on <{input}> elements
+  : <dfn element-attr for="input"><code>vspace</code></dfn> on <{input}> elements
+  : <dfn element-attr for="img"><code>align</code></dfn> on <{img}> elements
+  : <dfn element-attr for="img"><code>border</code></dfn> on <{img}> elements (except as noted in the previous section)
+  : <dfn element-attr for="img"><code>hspace</code></dfn> on <{img}> elements
+  : <dfn element-attr for="img"><code>vspace</code></dfn> on <{img}> elements
+  : <dfn element-attr for="legend"><code>align</code></dfn> on <{legend}> elements
+  : <dfn element-attr for="li"><code>type</code></dfn> on <{li}> elements
+  : <dfn element-attr for="menu"><code>compact</code></dfn> on <{menu}> elements
+  : <dfn element-attr for="marquee"><code>bgcolor</code></dfn> on <{marquee}> elements
+  : <dfn element-attr for="marquee"><code>height</code></dfn> on <{marquee}> elements
+  : <dfn element-attr for="marquee"><code>hspace</code></dfn> on <{marquee}> elements
+  : <dfn element-attr for="marquee"><code>vspace</code></dfn> on <{marquee}> elements
+  : <dfn element-attr for="marquee"><code>width</code></dfn> on <{marquee}> elements
+  : <dfn element-attr for="object"><code>align</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>border</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>hspace</code></dfn> on <{object}> elements
+  : <dfn element-attr for="object"><code>vspace</code></dfn> on <{object}> elements
+  : <dfn element-attr for="ol"><code>compact</code></dfn> on <{ol}> elements
+  : <dfn element-attr for="p"><code>align</code></dfn> on <{p}> elements
+  : <dfn element-attr for="pre"><code>width</code></dfn> on <{pre}> elements
+  : <dfn element-attr for="table"><code>align</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>bgcolor</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>bordercolor</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>cellpadding</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>cellspacing</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>frame</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>height</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>rules</code></dfn> on <{table}> elements
+  : <dfn element-attr for="table"><code>width</code></dfn> on <{table}> elements
+  : <dfn element-attr for="tbody,thead,tfoot,tablesection"><code>align</code></dfn> on <{tbody}>,
+      <{thead}>, and <{tfoot}> elements
+  : <dfn element-attr for="tbody,thead,tfoot,tablesection"><code>char</code></dfn> on <{tbody}>,
+      <{thead}>, and <{tfoot}> elements
+  : <dfn element-attr for="tbody,thead,tfoot,tablesection"><code>charoff</code></dfn> on <{tbody}>,
+      <{thead}>, and <{tfoot}> elements
+  : <dfn element-attr for="tbody,thead,tfoot,tablesection"><code>valign</code></dfn> on <{tbody}>,
+      <{thead}>, and <{tfoot}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>align</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>bgcolor</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>char</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>charoff</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>height</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>nowrap</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>valign</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="td,th,tablecells"><code>width</code></dfn> on <{td}> and <{th}> elements
+  : <dfn element-attr for="tr"><code>align</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="tr"><code>bgcolor</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="tr"><code>char</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="tr"><code>charoff</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="tr"><code>height</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="tr"><code>valign</code></dfn> on <{tr}> elements
+  : <dfn element-attr for="ul"><code>compact</code></dfn> on <{ul}> elements
+  : <dfn element-attr for="ul"><code>type</code></dfn> on <{ul}> elements
+  : <dfn element-attr for="body,table,thead,tbody,tfoot,tr,td,th,common"><code>background</code></dfn>
+      on <{body}>, <{table}>, <{thead}>, <{tbody}>, <{tfoot}>, <{tr}>, <{td}>, and <{th}> elements
+  :: Use CSS instead.
+
+<h3 id="requirements-for-implementations">Requirements for implementations</h3>
+
+<h4 id="the-marquee-element">The <dfn element><code>marquee</code></dfn> element</h4>
+
+  The <{marquee}> element is a presentational element that animates content. CSS transitions and
+  animations are a more appropriate mechanism. [[CSS3-ANIMATIONS]] [[CSS3-TRANSITIONS]]
+
+  The [=task source=] for tasks mentioned in this section is the [=DOM manipulation task source=].
+
+  The <{marquee}> element must implement the <code>HTMLMarqueeElement</code> interface.
+
+  <pre class="idl" data-highlight="webidl">
+    [HTMLConstructor]
+    interface HTMLMarqueeElement : HTMLElement {
+      [CEReactions] attribute DOMString behavior;
+      [CEReactions] attribute DOMString bgColor;
+      [CEReactions] attribute DOMString direction;
+      [CEReactions] attribute DOMString height;
+      [CEReactions] attribute unsigned long hspace;
+      [CEReactions] attribute long loop;
+      [CEReactions] attribute unsigned long scrollAmount;
+      [CEReactions] attribute unsigned long scrollDelay;
+      [CEReactions] attribute boolean trueSpeed;
+      [CEReactions] attribute unsigned long vspace;
+      [CEReactions] attribute DOMString width;
+
+      attribute EventHandler onbounce;
+      attribute EventHandler onfinish;
+      attribute EventHandler onstart;
+
+      void start();
+      void stop();
+    };
+  </pre>
+
+  A <{marquee}> element can be <dfn>turned on</dfn> or <dfn>turned off</dfn>. When it is created, it
+  is [=turned on=].
+
+  When the <dfn method for="HTMLMarqueeElement"><code>start()</code></dfn> method is called, the
+  <{marquee}> element must be [=turned on=].
+
+  When the <dfn method for="HTMLMarqueeElement"><code>stop()</code></dfn> method is called, the
+  <{marquee}> element must be [=turned off=].
+
+  When a <{marquee}> element is created, the user agent must [=queue a task=] to
+  [=fire an event=] named <code>start</code> at the element.
+
+  <hr />
+
+  The <dfn element-attr for="marquee"><code>behavior</code></dfn> content attribute on <{marquee}>
+  elements is an [=enumerated attribute=] with the following keywords (all non-conforming):
+
+  <table>
+    <thead>
+      <tr>
+        <th>Keyword</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><dfn attr-value for="marquee/behavior"><code>scroll</code></dfn></td>
+        <td><dfn state for="marquee/behavior">scroll</dfn></td>
+      </tr>
+      <tr>
+        <td><dfn attr-value for="marquee/behavior"><code>slide</code></dfn></td>
+        <td><dfn state for="marquee/behavior">slide</dfn></td>
+      </tr>
+      <tr>
+        <td><dfn attr-value for="marquee/behavior"><code>alternate</code></dfn></td>
+        <td><dfn state for="marquee/behavior">alternate</dfn></td>
+      </tr>
+    </tbody>
+  </table>
+
+  The <i>missing value default</i> is the <a state for="marquee/behavior">scroll</a> state.
+
+  <hr />
+
+  The <dfn element-attr for="marquee"><code>direction</code></dfn> content attribute on <{marquee}>
+  elements is an [=enumerated attribute=] with the following keywords (all non-conforming):
+
+  <table>
+    <thead>
+      <tr>
+        <th>Keyword</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a attr-value for="marquee/direction"><code>left</code></a></td>
+        <td><dfn state for="marquee">left</dfn></td>
+      </tr>
+      <tr>
+        <td><a attr-value for="marquee/direction"><code>right</code></a></td>
+        <td><dfn state for="marquee">right</dfn></td>
+      </tr>
+      <tr>
+        <td><a attr-value for="marquee/direction"><code>up</code></a></td>
+        <td><dfn state for="marquee">up</dfn></td>
+      </tr>
+      <tr>
+        <td><a attr-value for="marquee/direction"><code>down</code></a></td>
+        <td><dfn state for="marquee">down</dfn></td>
+      </tr>
+    </tbody>
+  </table>
+
+  The <i>missing value default</i> is the <a state for="marquee">left</a> state.
+
+  <hr />
+
+  The <dfn element-attr for="marquee"><code>truespeed</code></dfn> content attribute on <{marquee}>
+  elements is a [=boolean attribute=].
+
+  <hr />
+
+  A <{marquee}> element has a <dfn>marquee scroll interval</dfn>, which is obtained as follows:
+
+  1. If the element has a <dfn element-attr for="marquee"><code>scrolldelay</code></dfn> attribute,
+      and parsing its value using the [=rules for parsing non-negative integers=] does not return
+      an error, then let <var>delay</var> be the parsed value. Otherwise, let <var>delay</var> be
+      85.
+  2. If the element does not have a <{marquee/truespeed}> attribute, and the <var>delay</var> value
+      is less than 60, then let <var>delay</var> be 60 instead.
+  3. The [=marquee scroll interval=] is <var>delay</var>, interpreted in milliseconds.
+
+  <hr />
+
+  A <{marquee}> element has a <dfn for="marquee">marquee scroll distance</dfn>, which, if the
+  element has a <dfn element-attr for="marquee"><code>scrollamount</code></dfn> attribute, and
+  parsing its value using the [=rules for parsing non-negative integers=] does not return an
+  error, is the parsed value interpreted in CSS pixels, and otherwise is 6 CSS pixels.
+
+  <hr />
+
+  A <{marquee}> element has a <dfn>marquee loop count</dfn>, which, if the element has a
+  <dfn element-attr for="marquee"><code>loop</code></dfn> content attribute, and parsing its value
+  using the [=rules for parsing integers=] does not return an error or a number less than 1, is
+  the parsed value, and otherwise is -1.
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>loop</code></dfn> IDL attribute, on getting,
+  must return the element's [=marquee loop count=]; and on setting, if the new value is different
+  than the element's [=marquee loop count=] and either greater than zero or equal to -1, must set
+  the element's <{marquee/loop}> content attribute (adding it if necessary) to the
+  [=valid integer=] that represents the new value. (Other values are ignored.)
+
+  A <{marquee}> element also has a <dfn>marquee current loop index</dfn>, which is zero when the
+  element is created.
+
+  The rendering layer will occasionally <dfn>increment the marquee current loop index</dfn>, which
+  must cause the following steps to be run:
+
+  1. If the [=marquee loop count=] is -1, then abort these steps.
+  2. Increment the [=marquee current loop index=] by one.
+  3. If the [=marquee current loop index=] is now equal to or greater than the element's
+      [=marquee loop count=], <a lt="turned off">turn off</a> the <{marquee}> element and
+      [=queue a task=] to [=fire an event=] named <a event><code>finish</code></a> at the
+      <{marquee}> element.
+
+      Otherwise, if the {{HTMLMarqueeElement/behavior}} attribute is in the
+      <a state for="marquee/behavior">alternate</a> state, then [=queue a task=] to
+      [=fire an event=] named <a event><code>bounce</code></a> at the <{marquee}> element.
+
+      Otherwise, [=queue a task=] to [=fire an event=] named
+      <a event><code>start</code></a> at the <{marquee}> element.
+
+  <hr />
+
+  The following are the [=event handlers=] (and their corresponding
+  [=event handler event types=]) that must be supported, as
+  [=event handler content attributes=] and [=event handler IDL attributes=], by
+    <{marquee}> elements:
+
+  <table>
+    <thead>
+      <tr>
+        <th>[=Event handler=]</th>
+        <th>[=Event handler event type=]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><dfn attribute for="HTMLMarqueeElement"><code>onbounce</code></dfn></td>
+        <td><dfn event for="marquee"><code>bounce</code></dfn></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="HTMLMarqueeElement"><code>onfinish</code></dfn></td>
+        <td><dfn event for="marquee"><code>finish</code></dfn></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="HTMLMarqueeElement"><code>onstart</code></dfn></td>
+        <td><dfn event for="marquee"><code>start</code></dfn></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>behavior</code></dfn>,
+  <dfn attribute for="HTMLMarqueeElement"><code>direction</code></dfn>,
+  <dfn attribute for="HTMLMarqueeElement"><code>height</code></dfn>,
+  <dfn attribute for="HTMLMarqueeElement"><code>hspace</code></dfn>,
+  <dfn attribute for="HTMLMarqueeElement"><code>vspace</code></dfn>,
+  and <dfn attribute for="HTMLMarqueeElement"><code>width</code></dfn> IDL attributes must
+  [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>bgColor</code></dfn> IDL attribute must
+  [=reflect=] the <{marquee/bgcolor}> content attribute.
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>scrollAmount</code></dfn> IDL attribute must
+  [=reflect=] the <{marquee/scrollamount}> content attribute. The default value is 6.
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>scrollDelay</code></dfn> IDL attribute must
+  [=reflect=] the <{marquee/scrolldelay}> content attribute. The default value is 85.
+
+  The <dfn attribute for="HTMLMarqueeElement"><code>trueSpeed</code></dfn> IDL attribute must
+  [=reflect=] the <{marquee/truespeed}> content attribute.
+
+<h4 id="frames">Frames</h4>
+
+  The <dfn element><code>frameset</code></dfn> element acts as the <{body}> element in documents
+  that use frames.
+
+  The <{frameset}> element must implement the {{HTMLFrameSetElement}} interface.
+
+  <pre class="idl" data-highlight="webidl">
+    [HTMLConstructor]
+    interface HTMLFrameSetElement : HTMLElement {
+      [CEReactions] attribute DOMString cols;
+      [CEReactions] attribute DOMString rows;
+    };
+    HTMLFrameSetElement implements WindowEventHandlers;
+  </pre>
+
+  The <dfn element-attr for="frameset"><code>cols</code></dfn> and
+  <dfn element-attr for="frameset"><code>rows</code></dfn> content attributes for the <{frameset}>
+  element.
+
+  The <dfn attribute for="HTMLFrameSetElement"><code>cols</code></dfn> and
+  <dfn attribute for="HTMLFrameSetElement"><code>rows</code></dfn> IDL attributes of the
+  <{frameset}> element must [=reflect=] the respective content attributes of the same name.
+
+  The <{frameset}> element exposes as [=event handler content attributes=] a number of the
+  [=event handlers=] of the {{Window}} object. It also mirrors their
+  [=event handler IDL attributes=].
+
+  The <a attribute for="GlobalEventHandlers"><code>onblur</code></a>,
+  <a attribute for="GlobalEventHandlers"><code>onerror</code></a>,
+  <a attribute for="GlobalEventHandlers"><code>onfocus</code></a>,
+  <a attribute for="GlobalEventHandlers"><code>onload</code></a>,
+  <a attribute for="GlobalEventHandlers"><code>onresize</code></a>, and
+  <a attribute for="GlobalEventHandlers"><code>onscroll</code></a> [=event handlers=] of the
+  {{Window}} object, exposed on the <{frameset}> element, replace the generic [=event handlers=]
+  with the same names normally supported by [=HTML elements=].
+
+  <hr />
+
+  The <dfn element><code>frame</code></dfn> element defines a [=nested browsing context=] similar
+  to the <{iframe}> element, but rendered within a <{frameset}> element.
+
+  A <{frame}> element is said to be an <dfn>active <{frame}> element</dfn> when it is
+  <a>in a <code>document</code></a>.
+
+  When a <{frame}> element is created as an <a>active <code>frame</code> element</a>, or becomes an
+  <a>active <code>frame</code> element</a> after not having been one, the user agent must
+  [=create a new browsing context=], set the element's [=nested browsing context=] to the
+  newly-created [=browsing context=], and then <a>process the <code>frame</code> attributes</a>
+  for the first time. If the element has a <{frame/name}> attribute, the
+  [=browsing context name=] must be set to the value of this attribute; otherwise, the
+  [=browsing context name=] must be set to the empty string.
+
+  When a <{frame}> element stops being an <a>active <code>frame</code> element</a>, the
+  user agent must [=discard=] the element's [=nested browsing context=], and then set the
+  element's [=nested browsing context=] to null..
+
+  Whenever a <{frame}> element with a non-null [=nested browsing context=] has its <{frame/src}>
+  attribute set, changed, or removed, the user agent must
+  <a>process the <code>frame</code> attributes</a>.
+
+  When the user agent is to <dfn>process the <{frame}> attributes</dfn>, it must run the first
+  appropriate steps from the following list:
+
+  <dl class="switch">
+    <dt>
+      If the element has no <dfn element-attr for="frame"><code>src</code></dfn> attribute
+      specified, and the user agent is processing the <{frame}>'s attributes for the first time
+    </dt>
+    <dd>
+      [=Queue a task=] to [=fire an event=] named
+      <a event for="global"><code>load</code></a> at the <{frame}> element.
+    </dd>
+
+    <dt>Otherwise</dt>
+    <dd>Run the [=otherwise steps for iframe or frame elements=].</dd>
+  </dl>
+
+  Any [=navigation=] required of the user agent in the
+  <a>process the <code>frame</code> attributes</a> algorithm must use the <{frame}> element's
+  [=node document=]'s [=browsing context=] as the [=source browsing context=].
+
+  Furthermore, if the [=active document=] of the element's [=nested browsing context=] before
+  such a [=navigation=] was not [=completely loaded=] at the time of the new
+  [=navigation=], then the [=navigation=] must be completed with [=replacement enabled=].
+
+  Similarly, if the [=nested browsing context=]'s [=session history=] contained
+  only one {{Document}} when the <a>process the <code>frame</code> attributes</a>
+  algorithm was invoked, and that was the <a scheme><code>about:blank</code></a> {{Document}} created
+  when the [=nested browsing context=] was created, then any [=navigation=] required of the
+  user agent in that algorithm must be completed with [=replacement enabled=].
+
+  When a {{Document}} in a <{frame}> is marked as [=completely loaded=], the user agent must
+  [=queue a task=] to [=fire an event=] named <a event for="global"><code>load</code></a> at
+  the <{frame}> element.
+
+  The [=task source=] for the [=tasks=] above is the [=DOM manipulation task source=].
+
+  When a <{frame}> element's has a non-null [=nested browsing context=], and its
+  [=nested browsing context=]'s [=active document=] is not
+  [=ready for post-load tasks=], and when anything is [=delaying the load event=] of the
+  <{frame}> element's [=browsing context=]'s [=active document=], and when the <{frame}>
+  element's [=browsing context=] is in the <a>delaying <code>load</code> events mode</a>, the
+  <{frame}> must [=delay the load event=] of its document.
+
+  Whenever the <<dfn element-attr for="frame"><code>name</code></dfn> attribute is set and the
+  <{frame}> element's [=nested browsing context=] is non-null, the
+  [=nested browsing context=]'s <a lt="browsing context name">name</a> must be changed to the
+  new value. If the attribute is removed, the [=browsing context name=] must be set to the
+  empty string.
+
+  The <{frame}> element must implement the {{HTMLFrameElement}} interface.
+
+  <pre class="idl" data-highlight="webidl">
+    [HTMLConstructor]
+    interface HTMLFrameElement : HTMLElement {
+      [CEReactions] attribute DOMString name;
+      [CEReactions] attribute DOMString scrolling;
+      [CEReactions] attribute USVString src;
+      [CEReactions] attribute DOMString frameBorder;
+      [CEReactions] attribute USVString longDesc;
+      [CEReactions] attribute boolean noResize;
+      readonly attribute Document? contentDocument;
+      readonly attribute WindowProxy? contentWindow;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString marginHeight;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString marginWidth;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLFrameElement"><code>name</code></dfn>,
+  <dfn attribute for="HTMLFrameElement"><code>scrolling</code></dfn>, and
+  <dfn attribute for="HTMLFrameElement"><code>src</code></dfn> IDL attributes of the <{frame}>
+  element must [=reflect=] the respective content attributes of the same name. For the purposes
+  of reflection, the <{frame}> element's <{frame/src}> content attribute is defined as containing a
+  [=url/URL=].
+
+  The <dfn attribute for="HTMLFrameElement"><code>frameBorder</code></dfn> IDL attribute of the
+  <{frame}> element must [=reflect=] the element's
+  <dfn element-attr for="frame"><code>frameborder</code></dfn> content attribute.
+
+  The <dfn attribute for="HTMLFrameElement"><code>longDesc</code></dfn> IDL attribute of the
+  <{frame}> element must [=reflect=] the element's <code>longdesc</code> content attribute, which
+  for the purposes of reflection is defined as containing a [=url/URL=].
+
+  The <dfn attribute for="HTMLFrameElement"><code>noResize</code></dfn> IDL attribute of the
+  <{frame}> element must [=reflect=] the element's
+  <dfn element-attr for="frame"><code>noresize</code></dfn> content attribute.
+
+  The <dfn attribute for="HTMLFrameElement"><code>contentDocument</code></dfn> IDL attribute, on
+  getting, must return the [=content document=].
+
+  The <dfn attribute for="HTMLFrameElement"><code>contentWindow</code></dfn> IDL attribute must
+  return the <code>WindowProxy</code> object of the <{frame}> element's
+  [=nested browsing context=], if the element's [=nested browsing context=] is non-null, or
+  return null otherwise.
+
+  The <dfn attribute for="HTMLFrameElement"><code>marginHeight</code></dfn> IDL attribute of the
+  <{frame}> element must [=reflect=] the element's <code>marginheight</code> content attribute.
+
+  The <dfn attribute for="HTMLFrameElement"><code>marginWidth</code></dfn> IDL attribute of the
+  <{frame}> element must [=reflect=] the element's <code>marginwidth</code> content attribute.
+
+<h4 id="other-elements-attributes-and-apis">Other elements, attributes and APIs</h4>
+
+  User agents must treat <{acronym}> elements in a manner equivalent to <{abbr}> elements in terms
+  of semantics and for purposes of rendering.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLAnchorElement {
+      [CEReactions] attribute DOMString coords;
+      [CEReactions] attribute DOMString charset;
+      [CEReactions] attribute DOMString name;
+      [CEReactions] attribute DOMString shape;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLAnchorElement"><code>coords</code></dfn>,
+  <dfn attribute for="HTMLAnchorElement"><code>charset</code></dfn>,
+  <dfn attribute for="HTMLAnchorElement"><code>name</code></dfn>, and
+  <dfn attribute for="HTMLAnchorElement"><code>shape</code></dfn> IDL attributes of the
+  <{th}> element must [=reflect=] the respective content attributes of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLAreaElement {
+      [CEReactions] attribute boolean noHref;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLAreaElement"><code>noHref</code></dfn> IDL attribute of the <{area}>
+  element must [=reflect=] the element's <{area/nohref}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLBodyElement {
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString text;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString link;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString vLink;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString aLink;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString bgColor;
+      attribute DOMString background;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLBodyElement"><code>text</code></dfn> IDL attribute of the <{body}>
+  element must [=reflect=] the element's <{body/text}> content attribute.
+
+  The <dfn attribute for="HTMLBodyElement"><code>link</code></dfn> IDL attribute of the <{body}>
+  element must [=reflect=] the element's <{body/link}> content attribute.
+
+  The <dfn attribute for="HTMLBodyElement"><code>aLink</code></dfn> IDL attribute of the <{body}>
+  element must [=reflect=] the element's <{body/alink}> content attribute.
+
+  The <dfn attribute for="HTMLBodyElement"><code>vLink</code></dfn> IDL attribute of the <{body}>
+  element must [=reflect=] the element's <{body/vlink}> content attribute.
+
+  The <dfn attribute for="HTMLBodyElement"><code>bgColor</code></dfn> IDL attribute of the <{body}>
+  element must [=reflect=] the element's <{body/bgcolor}> content attribute.
+
+  The <dfn attribute for="HTMLBodyElement"><code>background</code></dfn> IDL attribute of the
+  <{body}> element must [=reflect=] the element's <{body/background}> content attribute. (The
+  <{body/background}> content is <em>not</em> defined to contain a [=url/URL=], despite
+  rules regarding its handling in [[#rendering|the Rendering section]] above.)
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLBRElement {
+      [CEReactions] attribute DOMString clear;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLBRElement"><code>clear</code></dfn> IDL attribute of the <{br}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableCaptionElement {
+      [CEReactions] attribute DOMString align;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableCaptionElement"><code>align</code></dfn> IDL attribute of the
+  <{caption}> element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableColElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString ch;
+      [CEReactions] attribute DOMString chOff;
+      [CEReactions] attribute DOMString vAlign;
+      [CEReactions] attribute DOMString width;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableColElement"><code>align</code></dfn> and
+  <dfn attribute for="HTMLTableColElement"><code>width</code></dfn> IDL attributes of the <{col}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLTableColElement"><code>ch</code></dfn> IDL attribute of the <{col}>
+  element must [=reflect=] the element's <{col/char}> content attribute.
+
+  The <dfn attribute for="HTMLTableColElement"><code>chOff</code></dfn> IDL attribute of the
+  <{col}> element must [=reflect=] the element's <{col/charoff}> content attribute.
+
+  The <dfn attribute for="HTMLTableColElement"><code>vAlign</code></dfn> IDL attribute of the
+  <{col}> element must [=reflect=] the element's <{col/valign}> content attribute.
+
+  <hr />
+
+  User agents must treat <{dir}> elements in a manner equivalent to <code>ul</code>
+  elements in terms of semantics and for purposes of rendering.
+
+  The <{dir}> element must implement the <code>HTMLDirectoryElement</code> interface.
+
+  <pre class="idl" data-highlight="webidl">
+    [HTMLConstructor]
+    interface HTMLDirectoryElement : HTMLElement {
+      [CEReactions] attribute boolean compact;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLDirectoryElement"><code>compact</code></dfn> IDL attribute of the
+  <{dir}> element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLDivElement {
+      [CEReactions] attribute DOMString align;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLDivElement"><code>align</code></dfn> IDL attribute of the <{div}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLDListElement {
+      [CEReactions] attribute boolean compact;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLDListElement"><code>compact</code></dfn> IDL attribute of the <{dl}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLEmbedElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString name;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLEmbedElement"><code>name</code></dfn> and
+  <dfn attribute for="HTMLEmbedElement"><code>align</code></dfn> IDL attributes of the <{embed}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  <hr />
+
+  The <{font}> element must implement the <code>HTMLFontElement</code> interface.
+
+  <pre class="idl" data-highlight="webidl">
+    [HTMLConstructor]
+    interface HTMLFontElement : HTMLElement {
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString color;
+      [CEReactions] attribute DOMString face;
+      [CEReactions] attribute DOMString size;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLFontElement"><code>color</code></dfn>,
+  <dfn attribute for="HTMLFontElement"><code>face</code></dfn>, and
+  <dfn attribute for="HTMLFontElement"><code>size</code></dfn>
+  IDL attributes of the <{font}> element must [=reflect=] the respective content
+  attributes of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLHeadingElement {
+      [CEReactions] attribute DOMString align;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLHeadingElement"><code>align</code></dfn> IDL attribute of the
+  <{h1}>—<{h6}> elements must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <p class="note">
+    The <dfn attribute for="HTMLHeadElement"><code>profile</code></dfn> IDL attribute on <{head}>
+    elements (with the {{HTMLHeadElement}} interface) is intentionally omitted. Unless so required
+    by <a lt="applicable specification">another applicable specification</a>, implementations would
+    therefore not support this attribute. (It is mentioned here as it was defined in a previous
+    version of the DOM specifications.)
+  </p>
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLHRElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString color;
+      [CEReactions] attribute boolean noShade;
+      [CEReactions] attribute DOMString size;
+      [CEReactions] attribute DOMString width;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLHRElement"><code>align</code></dfn>,
+  <dfn attribute for="HTMLHRElement"><code>color</code></dfn>,
+  <dfn attribute for="HTMLHRElement"><code>size</code></dfn>,
+  and <dfn attribute for="HTMLHRElement"><code>width</code></dfn> IDL attributes of the <{hr}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLHRElement"><code>noShade</code></dfn> IDL attribute of the <{hr}>
+  element must [=reflect=] the element's <code>noshade</code> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLHtmlElement {
+      [CEReactions] attribute DOMString version;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLHtmlElement"><code>version</code></dfn> IDL attribute of the <{html}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLIFrameElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString scrolling;
+      [CEReactions] attribute DOMString frameBorder;
+      [CEReactions] attribute USVString longDesc;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString marginHeight;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString marginWidth;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLIFrameElement"><code>align</code></dfn> and
+  <dfn attribute for="HTMLIFrameElement"><code>scrolling</code></dfn> IDL attributes of the
+  <{iframe}> element must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLIFrameElement"><code>frameBorder</code></dfn> IDL attribute of the
+  <{iframe}> element must [=reflect=] the element's <{iframe/frameborder}> content attribute.
+
+  The <dfn attribute for="HTMLIFrameElement"><code>longDesc</code></dfn> IDL attribute of the
+  <{iframe}> element must [=reflect=] the element's <{iframe/longdesc}> content attribute,
+  which for the purposes of reflection is defined as containing a [=url/URL=].
+
+  The <dfn attribute for="HTMLIFrameElement"><code>marginHeight</code></dfn> IDL attribute of the
+  <{iframe}> element must [=reflect=] the element's <{iframe/marginheight}> content attribute.
+
+  The <dfn attribute for="HTMLIFrameElement"><code>marginWidth</code></dfn> IDL attribute of the
+  <{iframe}> element must [=reflect=] the element's <{iframe/marginwidth}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLImageElement {
+      [CEReactions] attribute DOMString name;
+      [CEReactions] attribute USVString lowsrc;
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute unsigned long hspace;
+      [CEReactions] attribute unsigned long vspace;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString border;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLImageElement"><code>name</code></dfn>,
+  <dfn attribute for="HTMLImageElement"><code>align</code></dfn>,
+  <dfn attribute for="HTMLImageElement"><code>border</code></dfn>,
+  <dfn attribute for="HTMLImageElement"><code>hspace</code></dfn>, and
+  <dfn attribute for="HTMLImageElement"><code>vspace</code></dfn> IDL attributes of the <{img}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLImageElement"><code>lowsrc</code></dfn> IDL attribute of the <{img}>
+  element must [=reflect=] the element's <{img/lowsrc}> content attribute, which for the
+  purposes of reflection is defined as containing a [=url/URL=].
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLInputElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString useMap;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLInputElement"><code>align</code></dfn> IDL attribute of the <{input}>
+  element must [=reflect=] the content attribute of the same name.
+
+  The <dfn attribute for="HTMLInputElement"><code>useMap</code></dfn> IDL attribute of the <{input}>
+  element must [=reflect=] the element's <{input/usemap}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLLegendElement {
+      [CEReactions] attribute DOMString align;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLLegendElement"><code>align</code></dfn> IDL attribute of the
+  <{legend}> element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLLIElement {
+      [CEReactions] attribute DOMString type;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLLIElement"><code>type</code></dfn> IDL attribute of the <{li}> element
+  must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLLinkElement {
+      [CEReactions] attribute DOMString charset;
+      [CEReactions] attribute DOMString target;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLLinkElement"><code>charset</code></dfn> and
+  <dfn attribute for="HTMLLinkElement"><code>target</code></dfn> IDL attributes of the <{link}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  <hr />
+
+  User agents must treat <{listing}> elements in a manner equivalent to <code>pre</code> elements in
+  terms of semantics and for purposes of rendering.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLMenuElement {
+      [CEReactions] attribute boolean compact;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLMenuElement"><code>compact</code></dfn> IDL attribute of the <{menu}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLMetaElement {
+      [CEReactions] attribute DOMString scheme;
+    };
+  </pre>
+
+  User agents may treat the <{meta/scheme}> content attribute
+  on the <{meta}> element as an extension of the element's <{meta/name}> content attribute when
+  processing a <{meta}> element with a <{meta/name}> attribute whose value is one that the user
+  agent recognizes as supporting the <{meta/scheme}> attribute.
+
+  User agents are encouraged to ignore the <{meta/scheme}> attribute and instead process the
+  value given to the metadata name as if it had been specified for each expected value of the
+  <{meta/scheme}> attribute.
+
+  <div class="example">
+    For example, if the user agent acts on <{meta}> elements with <{meta/name}>
+    attributes having the value "eGMS.subject.keyword", and knows that the <{meta/scheme}>
+    attribute is used with this metadata name, then it could take the <{meta/scheme}> attribute
+    into account, acting as if it was an extension of the <{meta/name}> attribute. Thus the
+    following two <{meta}> elements could be treated as two elements giving values for two
+    different metadata names, one consisting of a combination of "eGMS.subject.keyword" and "LGCL",
+    and the other consisting of a combination of "eGMS.subject.keyword" and "ORLY":
+
+    <xmp class="bad" highlight="html">
+      <!-- this markup is invalid -->
+      <meta name="eGMS.subject.keyword" scheme="LGCL" content="Abandoned vehicles">
+      <meta name="eGMS.subject.keyword" scheme="ORLY" content="Mah car: kthxbye">
+    </xmp>
+
+    The suggested processing of this markup, however, would be equivalent to the following:
+
+    <xmp highlight="html">
+      <meta name="eGMS.subject.keyword" content="Abandoned vehicles">
+      <meta name="eGMS.subject.keyword" content="Mah car: kthxbye">
+    </xmp>
+  </div>
+
+  The <dfn attribute for="HTMLMetaElement"><code>scheme</code></dfn> IDL attribute of the <{meta}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLObjectElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString archive;
+      [CEReactions] attribute DOMString code;
+      [CEReactions] attribute boolean declare;
+      [CEReactions] attribute unsigned long hspace;
+      [CEReactions] attribute DOMString standby;
+      [CEReactions] attribute unsigned long vspace;
+      [CEReactions] attribute DOMString codeBase;
+      [CEReactions] attribute DOMString codeType;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString border;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLObjectElement"><code>align</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>archive</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>border</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>code</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>declare</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>hspace</code></dfn>,
+  <dfn attribute for="HTMLObjectElement"><code>standby</code></dfn>, and
+  <dfn attribute for="HTMLObjectElement"><code>vspace</code></dfn> IDL attributes of the <{object}>
+  element must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLObjectElement"><code>codeBase</code></dfn> IDL attribute of the
+  <{object}> element must [=reflect=] the element's <{object/codebase}> content attribute,
+  which for the purposes of reflection is defined as containing a [=url/URL=].
+
+  The <dfn attribute for="HTMLObjectElement"><code>codeType</code></dfn> IDL attribute of the
+  <{object}> element must [=reflect=] the element's <{object/codetype}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLOListElement {
+      [CEReactions] attribute boolean compact;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLOListElement"><code>compact</code></dfn> IDL attribute of the <{ol}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLParagraphElement {
+      [CEReactions] attribute DOMString align;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLParagraphElement"><code>align</code></dfn> IDL attribute of the <{p}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLParamElement {
+      [CEReactions] attribute DOMString type;
+      [CEReactions] attribute DOMString valueType;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLParamElement"><code>type</code></dfn> IDL attribute of the <{param}>
+  element must [=reflect=] the content attribute of the same name.
+
+  The <dfn attribute for="HTMLParamElement"><code>valueType</code></dfn> IDL attribute of the
+  <{param}> element must [=reflect=] the element's <{param/valuetype}> content attribute.
+
+  <hr />
+
+  User agents must treat <{plaintext}> elements in a manner equivalent to <code>pre</code> elements
+  in terms of semantics and for purposes of rendering. (The parser has special behavior for this
+  element, though.)
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLPreElement {
+      [CEReactions] attribute long width;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLPreElement"><code>width</code></dfn> IDL attribute of the <{pre}>
+  element must [=reflect=] the content attribute of the same name.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLScriptElement {
+      [CEReactions] attribute DOMString charset;
+      [CEReactions] attribute DOMString event;
+      [CEReactions] attribute DOMString htmlFor;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLScriptElement"><code>charset</code></dfn> IDL attribute of the
+  <{script}> element must reflect the element's <code>charset</code> content attribute.
+
+  The <dfn attribute for="HTMLScriptElement"><code>event</code></dfn> IDL attribute of the
+  <{script}> element must reflect the element's <{script/event}> content attribute.
+
+  The <dfn attribute for="HTMLScriptElement"><code>htmlFor</code></dfn> IDL attribute of the
+  <{script}> element must reflect the element's <{script/for}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString border;
+      [CEReactions] attribute DOMString frame;
+      [CEReactions] attribute DOMString rules;
+      [CEReactions] attribute DOMString summary;
+      [CEReactions] attribute DOMString width;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString bgColor;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString cellPadding;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString cellSpacing;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableElement"><code>align</code></dfn>,
+  <dfn attribute for="HTMLTableElement"><code>border</code></dfn>,
+  <dfn attribute for="HTMLTableElement"><code>frame</code></dfn>,
+  <dfn attribute for="HTMLTableElement"><code>summary</code></dfn>,
+  <dfn attribute for="HTMLTableElement"><code>rules</code></dfn>, and
+  <dfn attribute for="HTMLTableElement"><code>width</code></dfn>,
+  IDL attributes of the <{table}> element must [=reflect=] the respective content
+  attributes of the same name.
+
+  The <dfn attribute for="HTMLTableElement"><code>bgColor</code></dfn> IDL attribute of the
+  <{table}> element must [=reflect=] the element's <{table/bgcolor}> content attribute.
+
+  The <dfn attribute for="HTMLTableElement"><code>cellPadding</code></dfn> IDL attribute of the
+  <{table}> element must [=reflect=] the element's <{table/cellpadding}> content attribute.
+
+  The <dfn attribute for="HTMLTableElement"><code>cellSpacing</code></dfn> IDL attribute of the
+  <{table}> element must [=reflect=] the element's <{table/cellspacing}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableSectionElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString ch;
+      [CEReactions] attribute DOMString chOff;
+      [CEReactions] attribute DOMString vAlign;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableSectionElement"><code>align</code></dfn> IDL attribute of the
+  <{tbody}>, <{thead}>, and <{tfoot}> elements must [=reflect=] the content attribute of the same
+  name.
+
+  The <dfn attribute for="HTMLTableSectionElement"><code>ch</code></dfn> IDL attribute of the
+  <{tbody}>, <{thead}>, and <{tfoot}> elements must [=reflect=] the elements'
+  <{tablesection/char}> content attributes.
+
+  The <dfn attribute for="HTMLTableSectionElement"><code>chOff</code></dfn> IDL attribute of the
+  <{tbody}>, <{thead}>, and <{tfoot}> elements must [=reflect=] the elements'
+  <{tablesection/charoff}> content attributes.
+
+  The <dfn attribute for="HTMLTableSectionElement"><code>vAlign</code></dfn> IDL attribute of the
+  <{tbody}>, <{thead}>, and <{tfoot}> element must [=reflect=] the elements'
+  <{tablesection/valign}> content attributes.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableCellElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString axis;
+      [CEReactions] attribute DOMString height;
+      [CEReactions] attribute DOMString width;
+
+      [CEReactions] attribute DOMString ch;
+      [CEReactions] attribute DOMString chOff;
+      [CEReactions] attribute boolean noWrap;
+      [CEReactions] attribute DOMString vAlign;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString bgColor;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableCellElement"><code>align</code></dfn>,
+  <dfn attribute for="HTMLTableCellElement"><code>axis</code></dfn>,
+  <dfn attribute for="HTMLTableCellElement"><code>height</code></dfn>,
+  and <dfn attribute for="HTMLTableCellElement"><code>width</code></dfn> IDL attributes of the
+ <{td}> and <{th}> elements must [=reflect=] the respective content attributes of the same name.
+
+  The <dfn attribute for="HTMLTableCellElement"><code>ch</code></dfn> IDL attribute of the <{td}>
+  and <{th}> elements must [=reflect=] the elements' <{tablecells/char}> content attributes.
+
+  The <dfn attribute for="HTMLTableCellElement"><code>chOff</code></dfn> IDL attribute of the <{td}>
+  and <{th}> elements must [=reflect=] the elements' <{tablecells/charoff}> content attributes.
+
+  The <dfn attribute for="HTMLTableCellElement"><code>noWrap</code></dfn> IDL attribute of the
+  <{td}> and <{th}> elements must [=reflect=] the elements' <{tablecells/nowrap}> content
+  attributes.
+
+  The <dfn attribute for="HTMLTableCellElement"><code>vAlign</code></dfn> IDL attribute of the
+  <{td}> and <{th}> elements must [=reflect=] the elements' <{tablecells/valign}> content
+  attributes.
+
+  The <dfn attribute for="HTMLTableCellElement"><code>bgColor</code></dfn> IDL attribute of the
+  <{td}> and <{th}> elements must [=reflect=] the elements' <{tablecells/bgcolor}> content
+  attributes.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLTableRowElement {
+      [CEReactions] attribute DOMString align;
+      [CEReactions] attribute DOMString ch;
+      [CEReactions] attribute DOMString chOff;
+      [CEReactions] attribute DOMString vAlign;
+
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString bgColor;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLTableRowElement"><code>align</code></dfn> IDL attribute of the <{tr}>
+  element must [=reflect=] the content attribute of the same name.
+
+  The <dfn attribute for="HTMLTableRowElement"><code>ch</code></dfn> IDL attribute of the <{tr}>
+  element must [=reflect=] the element's <{tr/char}> content attribute.
+
+  The <dfn attribute for="HTMLTableRowElement"><code>chOff</code></dfn> IDL attribute of the <{tr}>
+  element must [=reflect=] the element's <{tr/charoff}> content attribute.
+
+  The <dfn attribute for="HTMLTableRowElement"><code>vAlign</code></dfn> IDL attribute of the <{tr}>
+  element must [=reflect=] the element's <{tr/valign}> content attribute.
+
+  The <dfn attribute for="HTMLTableRowElement"><code>bgColor</code></dfn> IDL attribute of the
+  <{tr}> element must [=reflect=] the element's <{tr/bgcolor}> content attribute.
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface HTMLUListElement {
+      [CEReactions] attribute boolean compact;
+      [CEReactions] attribute DOMString type;
+    };
+  </pre>
+
+  The <dfn attribute for="HTMLUListElement"><code>compact</code></dfn> and
+  <dfn attribute for="HTMLUListElement"><code>type</code></dfn>
+  IDL attributes of the <{ul}> element must [=reflect=] the respective content attributes of the
+  same name.
+
+  <hr />
+
+  User agents must treat <{xmp}> elements in a manner equivalent to <{pre}> elements in terms of
+  semantics and for purposes of rendering. (The parser has special behavior for this element though.)
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface Document {
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString fgColor;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString linkColor;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString vlinkColor;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString alinkColor;
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString bgColor;
+
+      [SameObject] readonly attribute HTMLCollection anchors;
+      [SameObject] readonly attribute HTMLCollection applets;
+
+      void clear();
+      void captureEvents();
+      void releaseEvents();
+
+      [SameObject] readonly attribute HTMLAllCollection all;
+    };
+  </pre>
+
+  The attributes of the {{Document}} object listed in the first column of the following table must
+  [=reflect=] the content attribute on the <{body}> element with the name given in the
+  corresponding cell in the second column on the same row, if the <{body}> element is a <{body}>
+  element (as opposed to a <{frameset}> element). When there is no <{body}> element or if it is a
+  <{frameset}> element, the attributes must instead return the empty string on getting and do
+  nothing on setting.
+
+  <table>
+    <thead>
+      <tr>
+        <th>IDL attribute</th>
+        <th>Content attribute</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><dfn attribute for="Document"><code>fgColor</code></dfn></td>
+        <td><{body/text}></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="Document"><code>linkColor</code></dfn></td>
+        <td><{body/link}></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="Document"><code>vlinkColor</code></dfn></td>
+        <td><{body/vlink}></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="Document"><code>alinkColor</code></dfn></td>
+        <td><{body/alink}></td>
+      </tr>
+      <tr>
+        <td><dfn attribute for="Document"><code>bgColor</code></dfn></td>
+        <td><{body/bgcolor}></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  The <dfn attribute for="Document"><code>anchors</code></dfn> attribute must return an
+  {{HTMLCollection}} rooted at the {{Document}} node, whose filter matches only <{a}> elements with
+  <{a/name}> attributes.
+
+  The <dfn attribute for="Document"><code>applets</code></dfn> attribute must return an
+  {{HTMLCollection}} rooted at the {{Document}} node, whose filter matches nothing. (This exists
+  for historical reasons.)
+
+  The <dfn method for="Document"><code>clear()</code></dfn>,
+  <dfn method for="Document"><code>captureEvents()</code></dfn>, and
+  <dfn method for="Document"><code>releaseEvents()</code></dfn> methods must do nothing.
+
+  <hr />
+
+  The <dfn attribute for="Document"><code>all</code></dfn> attribute must return an
+  {{HTMLAllCollection}} rooted at the {{Document}} node, whose filter matches all elements.
+
+  The object returned for {{Document/all}} has several unusual behaviors:
+
+  * The user agent must act as if the [=ToBoolean=] abstract operator in JavaScript converts the
+    object returned for {{Document/all}} to the false value.
+  * The user agent must act as if the [=Abstract Equality Comparison=] algorithm, when given the
+    object returned for {{Document/all}}, returns true when compared to the <code>undefined</code>
+    and <code>null</code> values. (Comparisons using the [=Strict Equality Comparison=] algorithm,
+    and Abstract Equality comparisons to other values such as strings or objects, are unaffected.)
+  * The user agent must act such that the <code>typeof</code> operator in JavaScript returns the
+    string <code>undefined</code> when applied to the object returned for {{Document/all}}.
+
+  <p class="note">
+    These requirements are a [=willful violation=] of the JavaScript specification current at the
+    time of writing. The JavaScript specification requires that ToBoolean return true for all
+    objects to the true value, and does not have provisions for objects acting as if they were
+    <code>undefined</code> for the purposes of certain operators. This violation is motivated by a
+    desire for compatibility with two classes of legacy content: one that uses the presence of
+    {{Document/all|document.all}} as a way to detect legacy user agents, and one that only supports
+    those legacy user agents and uses the {{Document/all|document.all}} object without testing for
+    its presence first. [[!ECMA-262]]
+  </p>
+
+  <hr />
+
+  <pre class="idl" data-highlight="webidl">
+    partial interface Window {
+      void captureEvents();
+      void releaseEvents();
+
+      [Replaceable, SameObject] readonly attribute External external;
+    };
+  </pre>
+
+  The <dfn method for="Window"><code>captureEvents()</code></dfn> and
+  <dfn method for="Window"><code>releaseEvents()</code></dfn> methods must do nothing.
+
+  The <dfn attribute for="Window"><code>external</code></dfn> attribute of the {{Window}} interface
+  must return an instance of the {{External}} interface:
+
+  <pre class="idl" data-highlight="webidl">
+    [NoInterfaceObject]
+    interface External {
+      void AddSearchProvider();
+      void IsSearchProviderInstalled();
+    };
+  </pre>
+
+  The <dfn method for="External"><code>AddSearchProvider()</code></dfn> and
+  <dfn method for="External"><code>IsSearchProviderInstalled()</code></dfn> methods must do nothing.
+
+  <hr />
+
+<h5 id="plugins-2">Plugins</h5>
+
+  <p class="warning">This feature is in the process of being removed from the Web platform. (This is
+  a long process that takes many years.) Using the plugins API at this time is highly discouraged.
+  </p>
+
+  <pre class="idl" data-highlight="webidl">
+    Navigator implements NavigatorPlugins;
+
+    [NoInterfaceObject]
+      interface NavigatorPlugins {
+      [SameObject] readonly attribute PluginArray plugins;
+      [SameObject] readonly attribute MimeTypeArray mimeTypes;
+      boolean javaEnabled();
+    };
+  </pre>
+
+  <pre class="idl" data-highlight="webidl">
+    interface PluginArray {
+      void refresh(optional boolean reload = false);
+      readonly attribute unsigned long length;
+      getter Plugin? item(unsigned long index);
+      getter Plugin? namedItem(DOMString name);
+    };
+  </pre>
+
+  <pre class="idl" data-highlight="webidl">
+    interface MimeTypeArray {
+      readonly attribute unsigned long length;
+      getter MimeType? item(unsigned long index);
+      getter MimeType? namedItem(DOMString name);
+    };
+  </pre>
+
+  <pre class="idl" data-highlight="webidl">
+    interface Plugin {
+      readonly attribute DOMString name;
+      readonly attribute DOMString description;
+      readonly attribute DOMString filename;
+      readonly attribute unsigned long length;
+      getter MimeType? item(unsigned long index);
+      getter MimeType? namedItem(DOMString name);
+    };
+  </pre>
+
+  <pre class="idl" data-highlight="webidl">
+    interface MimeType {
+      readonly attribute DOMString type;
+      readonly attribute DOMString description;
+      readonly attribute DOMString suffixes; // comma-separated
+      readonly attribute Plugin enabledPlugin;
+    };
+  </pre>
+
+  The <dfn attribute for="NavigatorPlugins"><code>plugins</code></dfn> attribute must
+  return a <code>PluginArray</code> object.
+
+  The <dfn attribute for="NavigatorPlugins"><code>mimeTypes</code></dfn> attribute must
+  return a <code>MimeTypeArray</code> object.
+
+  <hr />
+
+  A <code>PluginArray</code> object represents none, some, or all of the <a>plugins</a> supported by the user agent, each of which is represented by a <code>Plugin</code> object. Each of these <code>Plugin</code>
+  objects may be <dfn>hidden plugins</dfn>. A <a>hidden plugin</a> can't
+  be enumerated, but can still be inspected by using its name.
+
+  <p class="note">
+  The fewer <a>plugins</a> are represented by the
+  <code>PluginArray</code> object, and of those, the more that are <a lt="hidden plugins">hidden</a>, the more the user's privacy will be protected. Each exposed plugin
+  increases the number of bits that can be derived for fingerprinting. Hiding a plugin helps, but
+  unless it is an extremely rare plugin, it is likely that a site attempting to derive the list of
+  plugins can still determine whether the plugin is supported or not by probing for it by name (the
+  names of popular plugins are widely known). Therefore not exposing a plugin at all is preferred.
+  Unfortunately, many legacy sites use this feature to determine, for example, which plugin to use
+  to play video. Not exposing any plugins at all might therefore not be entirely plausible.
+  </p>
+
+  The <code>PluginArray</code> objects created by a user agent must not be <a>live</a>. The
+  set of plugins represented by the objects must not change once an object is created, except when
+  it is updated by the <code>refresh()</code> method.
+
+  Each <a>plugin</a> represented by a <code>PluginArray</code> can support a number of
+  <a>MIME types</a>. For each such <a>plugin</a>, the user agent must
+  pick one or more of these <a>MIME types</a> to be those that are
+  <dfn lt="explicitly supports|explicitly supported">explicitly supported</dfn>.
+
+  <p class="note">
+  The <a>explicitly supported</a> <a>MIME types</a> of
+  a <a>plugin</a> are those that are exposed through the <code>Plugin</code> and <code>MimeTypeArray</code> interfaces. As with <a>plugins</a> themselves, any variation between users regarding what is exposed
+  allows sites to fingerprint users. User agents are therefore encouraged to expose the same <a>MIME types</a> for all users of a <a>plugin</a>, regardless of the
+  actual types supported... at least, within the constraints imposed by compatibility with legacy
+  content.
+  </p>
+
+  The <a>supported property indices</a> of a <code>PluginArray</code> object are the
+  numbers from zero to the number of non-<a lt="hidden plugins">hidden</a> <a>plugins</a> represented by the object, if any.
+
+  The <dfn attribute for="PluginArray"><code>length</code></dfn> attribute must return the
+  number of non-<a lt="hidden plugins">hidden</a> <a>plugins</a>
+  represented by the object.
+
+  The <dfn method for="PluginArray" title="item(index)">item(unsigned long index)</dfn> method of a
+  <code>PluginArray</code> object must return null if the argument is not one of the object's
+  <a>supported property indices</a>, and otherwise must return the result of running the
+  following steps, using the method's argument as <var>index</var>:
+
+  <ol>
+
+    <li>Let <var>list</var> be the <code>Plugin</code> objects
+    representing the non-<a lt="hidden plugins">hidden</a> <a>plugins</a> represented by the <code>PluginArray</code> object.</li>
+
+    <li>Sort <var>list</var> alphabetically by the <code>name</code> of each <code>Plugin</code>.</li>
+
+    <li>Return the <var>index</var>th entry in <var>list</var>.</li>
+
+  </ol>
+
+  <p class="note">
+    It is important <a>for privacy</a> that the order of plugins not leak additional information,
+    e.g., the order in which plugins were installed.
+  </p>
+
+  The <a spec="webidl">supported property names</a> of a <code>PluginArray</code> object are the values
+  of the <code>name</code> attributes of all the <code>Plugin</code> objects represented by the <code>PluginArray</code> object. The
+  properties exposed in this way must be <a>unenumerable</a>.
+
+  The <dfn method for="PluginArray" title="namedItem(name)">namedItem(DOMString name)</dfn> method of a
+  <code>PluginArray</code> object must return null if the argument is not one of the object's
+  <a spec="webidl">supported property names</a>, and otherwise must return the <code>Plugin</code> object, of those represented by the <code>PluginArray</code>
+  object, that has a <code>name</code> equal to the method's argument.
+
+  The <dfn method for="PluginArray"><code>refresh()</code></dfn> method of the
+  <code>PluginArray</code> object of a <code>Navigator</code> object, when invoked, must check to
+  see if any <a>plugins</a> have been installed or reconfigured since the user
+  agent created the <code>PluginArray</code> object. If so, and the method's argument is true, then
+  the user agent must act as if the <code>location.reload()</code>
+  method was called instead. Otherwise, the user agent must update the <code>PluginArray</code>
+  object and <code>MimeTypeArray</code> object created for attributes of that <code>Navigator</code>
+  object, and the <code>Plugin</code> and <code>MimeType</code> objects created
+  for those <code>PluginArray</code> and <code>MimeTypeArray</code> objects, using the same <code>Plugin</code> objects for cases where the <code>name</code> is the same, and the same <code>MimeType</code> objects for
+  cases where the <code>type</code> is the same, and creating new objects
+  for cases where there were no matching objects immediately prior to the <code>refresh()</code> call. Old <code>Plugin</code>
+  and <code>MimeType</code> objects must continue to return the same values that they had prior to
+  the update, though naturally now the data is stale and may appear inconsistent (for example, an
+  old <code>MimeType</code> entry might list as its <code>enabledPlugin</code> a <code>Plugin</code>
+  object that no longer lists that <code>MimeType</code> as a supported <code>MimeType</code>).
+
+  <hr />
+
+  A <code>MimeTypeArray</code> object represents the <a>MIME types</a>
+  <a>explicitly supported</a> by <a>plugins</a> supported by the user
+  agent, each of which is represented by a <code>MimeType</code> object.
+
+  The <code>MimeTypeArray</code> objects created by a user agent must not be <a>live</a>.
+  The set of MIME types represented by the objects must not change once an object is created, except
+  when it is updated by the <code>PluginArray</code> object's <code>refresh()</code> method.
+
+  The <a>supported property indices</a> of a <code>MimeTypeArray</code> object are the
+  numbers from zero to the number of <a>MIME types</a> <a>explicitly
+  supported</a> by non-<a lt="hidden plugins">hidden</a> <a>plugins</a> represented by the corresponding <code>PluginArray</code> object, if
+  any.
+
+  The <dfn attribute for="MimeTypeArray"><code>length</code></dfn> attribute must return the
+  number of <a>MIME types</a> <a>explicitly supported</a> by non-<a lt="hidden plugins">hidden</a> <a>plugins</a> represented by the
+  corresponding <code>PluginArray</code> object, if any.
+
+  The <dfn method for="MimeTypeArray" title="item(index)">item(unsigned long index)</dfn> method of a
+  <code>MimeTypeArray</code> object must return null if the argument is not one of the object's
+  <a>supported property indices</a>, and otherwise must return the result of running the
+  following steps, using the method's argument as <var>index</var>:
+
+  <ol>
+
+    <li>Let <var>list</var> be the <code>MimeType</code> objects representing the <a>MIME types</a> <a>explicitly supported</a> by non-<a lt="hidden plugins">hidden</a> <a>plugins</a> represented by the corresponding
+    <code>PluginArray</code> object, if any.</li>
+
+    <li>Sort <var>list</var> alphabetically by the <code>type</code> of each <code>MimeType</code>.</li>
+
+    <li>Return the <var>index</var>th entry in <var>list</var>.</li>
+
+  </ol>
+
+  <p class="note">
+  It is important <a>for
+  privacy</a> that the order of MIME types not leak additional information, e.g., the order in
+  which plugins were installed.
+  </p>
+
+  The <a spec="webidl">supported property names</a> of a <code>MimeTypeArray</code> object are the values
+  of the <code>type</code> attributes of all the <code>MimeType</code>
+  objects represented by the <code>MimeTypeArray</code> object. The properties exposed in this way
+  must be <a>unenumerable</a>.
+
+  The <dfn method for="MimeTypeArray" title="namedItem(name)">namedItem(DOMString name)</dfn> method of a
+  <code>MimeTypeArray</code> object must return null if the argument is not one of the object's
+  <a spec="webidl">supported property names</a>, and otherwise must return the <code>MimeType</code> object
+  that has a <code>type</code> equal to the method's argument.
+
+  <hr />
+
+  A <code>Plugin</code> object represents a <a>plugin</a>. It has
+  several attributes to provide details about the plugin, and can be enumerated to obtain the list
+  of <a>MIME types</a> that it <a>explicitly supports</a>.
+
+  The <code>Plugin</code> objects created by a user agent must not be
+  <a>live</a>. The set of MIME types represented by the objects, and the values of the
+  objects' attributes, must not change once an object is created, except when updated by the
+  <code>PluginArray</code> object's <code>refresh()</code> method.
+
+  The <dfn>reported MIME types</dfn> for a <code>Plugin</code> object are the
+  <a>MIME types</a> <a>explicitly supported</a> by the corresponding
+  <a>plugin</a> when this object was last created or updated by
+  <code>PluginArray.refresh()</code>, whichever happened most recently.
+
+  The <a>supported property indices</a> of a <code>Plugin</code> object
+  are the numbers from zero to the number of <a>reported MIME types</a>.
+
+  The <dfn attribute for="Plugin"><code>length</code></dfn> attribute must return the number
+  of <a>reported MIME types</a>.
+
+  The <dfn method for="Plugin" title="item(index)">item(unsigned long index)</dfn> method of a <code>Plugin</code> object must return null if the argument is not one of the
+  object's <a>supported property indices</a>, and otherwise must return the result of running
+  the following steps, using the method's argument as <var>index</var>:
+
+  <ol>
+
+    <li>Let <var>list</var> be the <code>MimeType</code> objects representing the
+    <a>reported MIME types</a>.</li>
+
+    <li>Sort <var>list</var> alphabetically by the <code>type</code> of each <code>MimeType</code>.</li>
+
+    <li>Return the <var>index</var>th entry in <var>list</var>.</li>
+
+  </ol>
+
+  <p class="note">
+    It is important <a>for privacy</a> that the order of MIME types not leak additional
+    information, e.g., the order in which plugins were installed.
+  </p>
+
+  The <a spec="webidl">supported property names</a> of a <code>Plugin</code> object are the values
+  of the <code>type</code> attributes of the <code>MimeType</code> objects representing the
+  <a>reported MIME types</a>. The properties exposed in this way must be <a>unenumerable</a>.
+
+  The <dfn method for="Plugin" title="namedItem(name)">namedItem(DOMString name)</dfn> method of
+  a <code>Plugin</code> object must return null if the argument is not one of the
+  object's <a spec="webidl">supported property names</a>, and otherwise must return the
+  <code>MimeType</code> object that has a <code>type</code> equal to the method's argument.
+
+  The <dfn attribute for="Plugin"><code>name</code></dfn> attribute must return the
+  <a>plugin</a>'s name.
+
+  The <dfn attribute for="Plugin"><code>description</code></dfn> and <dfn attribute for="Plugin"><code>filename</code></dfn> attributes must return user-agent-defined
+  (or, in all likelihood, <a>plugin</a>-defined) strings. In each case, the same string must
+  be returned each time, except that the strings returned may change when the <code>PluginArray.refresh()</code> method updates the object.
+
+  <p class="warning">
+    If the values returned by the <code>description</code> or <code>filename</code> attributes
+    vary between versions of a <a>plugin</a>, they can be used both as a fingerprinting vector
+    and, even more importantly, as a trivial way to determine what security vulnerabilities a
+    <a>plugin</a> (and thus a browser) may have. It is thus highly recommended that the
+    <code>description</code> attribute just return the same value as the <code>name</code>
+    attribute, and that the <code>filename</code> attribute return the empty string.
+  </p>
+
+
+  <hr />
+
+  A <code>MimeType</code> object represents a <a>MIME type</a> that is, or was,
+  <a>explicitly supported</a> by a <a>plugin</a>.
+
+  The <code>MimeType</code> objects created by a user agent must not be <a>live</a>. The
+  values of the objects' attributes must not change once an object is created, except when updated
+  by the <code>PluginArray</code> object's <code>refresh()</code> method.
+
+  The <dfn attribute for="MimeType"><code>type</code></dfn> attribute must return the
+  <a>valid MIME type with no parameters</a> describing the <a>MIME type</a>.
+
+  The <dfn attribute for="MimeType"><code>description</code></dfn> and
+  <dfn attribute for="MimeType"><code>suffixes</code></dfn> attributes must return
+  user-agent-defined (or, in all likelihood, <a>plugin</a>-defined) strings. In each case, the
+  same string must be returned each time, except that the strings returned may change when the <code>PluginArray.refresh()</code> method updates the object.
+
+  <p class="warning">
+    If the values returned by the <code>description</code> or <code>suffixes</code>
+    attributes vary between versions of a <a>plugin</a>, they can be used both as a
+    fingerprinting vector and, even more importantly, as a trivial way to determine what
+    security vulnerabilities a <a>plugin</a> (and thus a browser) may have. It is thus highly
+    recommended that the <code>description</code> attribute just return the same value as the
+    <code>type</code> attribute, and that the <code>suffixes</code> attribute return the
+    empty string.
+  </p>
+
+
+  <p class="note">
+    Commas in the <code>suffixes</code> attribute are interpreted as separating
+    subsequent filename extensions, as in "<code>htm,html</code>".
+  </p>
+
+  The <dfn attribute for="MimeType"><code>enabledPlugin</code></dfn> attribute must
+  return the <code>Plugin</code> object that represents the <a>plugin</a>
+  that <a>explicitly supported</a> the <a>MIME type</a> that this <code>MimeType</code>
+  object represents when this object was last created or updated by <code>PluginArray.refresh()</code>, whichever happened most
+  recently.
+
+  <hr />
+
+  The <dfn method for="NavigatorPlugins"><code>javaEnabled()</code></dfn> attribute
+  must return true if the user agent supports a <a>plugin</a> that supports the <a>MIME
+  type</a> "<code>application/x-java-vm</code>"; otherwise it must return false.
+
+</section>

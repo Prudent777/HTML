@@ -1,0 +1,819 @@
+<section>
+
+<!--
+
+    Interactive elements
+
+  This source produces section 4.11: Interactive elements
+  https://w3c.github.io/html/interactive-elements.html
+
+  It covers:
+  - Details and summary elements
+  - Commands
+    + facets of commands
+    + defining commands with a, button, input, option, and accesskeys
+  - Dialog element
+
+-->
+
+<h3 id="interactive-elements">Interactive elements</h3>
+
+<h4 id="the-details-element">The <dfn element><code>details</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning root</a>.</dd>
+    <dd><a>Interactive content</a>.</dd>
+    <dd><a>Palpable content</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd>One <{summary}> element followed by <a>flow content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dd><code>open</code> - Whether the details are visible</dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>group</code></a> role (default - <a><em>do not set</em></a>)
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>Any <code>aria-*</code> attributes
+    <a href="#allowed-aria-roles-states-and-properties">applicable to the default role</a>.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl" data-highlight="webidl">
+        interface HTMLDetailsElement : HTMLElement {
+          attribute boolean open;
+        };
+      </pre>
+    </dd>
+  </dl>
+
+  The <{details}> element <a>represents</a> a disclosure widget from which the
+  user can obtain additional information or controls.
+
+  <p class="note">
+    The <{details}> element is not appropriate for footnotes. Please see [[#footnotes]] for details on how to mark up footnotes.
+  </p>
+
+  If the <{details}> element has a <{summary}> child element, then the first summary child element
+  <a>represents</a> the summary or legend of the details element. If there is no summary child
+  element, a user agent should provide its own legend (e.g. in English "Details"
+  or Spanish <span lang="es">"Detalles"</span>).
+
+  <p class="note">The legend text should be presented in the language determined from the computed
+  language of the element, if available, rather than from the locale of the browser/system.</p>
+
+  The rest of the element's contents <a>represents</a> the additional information or
+  controls.
+
+  The <dfn element-attr for="details"><code>open</code></dfn> content attribute is a <a>boolean
+  attribute</a>. If present, it indicates that both the summary and the additional information is
+  to be shown to the user. If the attribute is absent, only the summary is to be shown.
+
+  When the element is created, if the attribute is absent, the additional information should be
+  hidden; if the attribute is present, that information should be shown. Subsequently, if the
+  attribute is removed, then the information should be hidden; if the attribute is added, the
+  information should be shown.
+
+  The user agent should allow the user to request that the additional information be shown or
+  hidden. To honor a request for the details to be shown, the user agent must set the <code>open</code>
+  attribute on the element to the empty string. To honor a request for the information to be hidden,
+  the user agent must remove the <code>open</code> attribute from the element.
+
+  <p class="note">This ability to request that additional information be shown or hidden may simply be
+  the activation behavior of the appropriate <code>summary</code> element, in the case such an element
+  exists. However, if no such element exists, user agents can still provide this ability through some
+  other user interface affordance.</p>
+
+  Whenever the <code>open</code> attribute is added to or removed from
+  a <{details}> element, the user agent must <a>queue a task</a> that runs the
+  following steps, which are known as the <dfn>details notification task steps</dfn>, for this
+  <{details}> element:
+
+  <ol>
+
+    <li>
+
+    If another <a>task</a> has been <a>queued</a> to run the <a>details notification task steps</a> for this
+    <{details}> element, then abort these steps.
+
+    <p class="note">
+    When the <code>open</code> attribute is toggled
+    several times in succession, these steps essentially get coalesced so that only one event is
+    fired.
+  </p>
+
+    </li>
+
+    <li><a>Fire a simple event</a> named <code>toggle</code> at the
+    <{details}> element.</li>
+
+  </ol>
+
+  The <a>task source</a> for this task must be the <a>DOM manipulation task source</a>.
+
+  The <dfn attribute for="HTMLDetailsElement"><code>open</code></dfn> IDL attribute must
+  <a>reflect</a> the <code>open</code> content attribute.
+
+  <div class="example">
+    The following example shows the <{details}> element being used to hide technical
+    details in a progress report.
+
+    <section class="progress window">
+      <strong>Copying "Really Achieving Your Childhood Dreams"</strong>
+      <details>
+        <summary>Copying... <progress max="375505392" value="97543282"></progress> 25%</summary>
+        <dl>
+          <dt>Transfer rate:</dt> <dd>452KB/s</dd>
+          <dt>Local filename:</dt> <dd>/home/rpausch/raycd.m4v</dd>
+          <dt>Remote filename:</dt> <dd>/var/www/lectures/raycd.m4v</dd>
+          <dt>Duration:</dt> <dd>01:16:27</dd>
+          <dt>Color profile:</dt> <dd>SD (6-1-6)</dd>
+          <dt>Dimensions:</dt> <dd>320×240</dd>
+        </dl>
+      </details>
+    </section>
+
+    <xmp highlight="html">
+      <section class="progress window">
+        <h1>Copying "Really Achieving Your Childhood Dreams"</h1>
+        <details>
+          <summary>Copying... <progress max="375505392" value="97543282"></progress> 25%</summary>
+          <dl>
+            <dt>Transfer rate:</dt> <dd>452KB/s</dd>
+            <dt>Local filename:</dt> <dd>/home/rpausch/raycd.m4v</dd>
+            <dt>Remote filename:</dt> <dd>/var/www/lectures/raycd.m4v</dd>
+            <dt>Duration:</dt> <dd>01:16:27</dd>
+            <dt>Color profile:</dt> <dd>SD (6-1-6)</dd>
+            <dt>Dimensions:</dt> <dd>320×240</dd>
+          </dl>
+        </details>
+      </section>
+    </xmp>
+
+  </div>
+
+  <div class="example">
+    The following shows how a <{details}> element can be used to hide some controls by default:
+
+    <xmp highlight="html">
+      <details>
+        <summary><label for="fn">Name & Extension:</label></summary>
+        <p><input type="text" id="fn" name="fn" value="Pillar Magazine.pdf">
+        <p><label><input type="checkbox" name="ext" checked> Hide extension</label>
+      </details>
+    </xmp>
+
+    One could use this in conjunction with other <{details}> in a list to allow the user
+    to collapse a set of fields down to a small set of headings, with the ability to open each
+    one.
+
+    <p class="details-example"><img src="images/sample-details-1.png" width="345" height="611" alt="" /><img src="images/sample-details-2.png" width="345" height="666" alt="" /></p>
+
+    In these examples, the summary really just summarizes what the controls can change, and not
+    the actual values, which is less than ideal.
+  </div>
+
+  <div class="example">
+    Because the <{details/open}> attribute is added and removed
+    automatically as the user interacts with the control, it can be used in CSS to style the element
+    differently based on its state. Here, a stylesheet is used to animate the color of the summary
+    when the element is opened or closed.
+
+    CSS:
+    <xmp highlight="css">
+      details > summary {
+        transition: color 1s;
+        color: black;
+      }
+
+      details[open] > summary {
+        color: red;
+      }
+    </xmp>
+
+    HTML:
+    <xmp highlight="html">
+      <details>
+        <summary>Automated Status: Operational</summary>
+        <p>Velocity: 12m/s</p>
+        <p>Direction: North</p>
+      </details>
+    </xmp>
+
+  </div>
+
+<h4 id="the-summary-element">The <dfn element><code>summary</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd>None.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>As the first child of a <{details}> element.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd>Either: <a>phrasing content</a>.</dd>
+    <dd>Or: one element of <a>heading content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd><a attr-value for="aria/role"><code>button</code></a>.</dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd>
+      <a>Global aria-* attributes</a>
+    </dd>
+    <dd>
+      Any <code>aria-*</code> attributes
+      <a href="#allowed-aria-roles-states-and-properties">applicable to the <code>button</code> role</a>.
+    </dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>Uses {{HTMLElement}}.</dd>
+  </dl>
+
+  The first <{summary}> child element of a <{details}> element
+  <a>represents</a> a summary, caption, or legend for the rest of the contents of the
+  parent <{details}> element, if any.
+
+  <p>The activation behavior of <code>summary</code> elements is to run the following steps:</p>
+    <ol>
+      <li>If this <code>summary</code> element has no parent node, then abort these steps.</li>
+      <li>Let parent be this <code>summary</code> element's parent node.</li>
+      <li>If parent is not a <code>details</code> element, then abort these steps.</li>
+      <li>If the <code>open</code> attribute is present on parent, then remove it. Otherwise, set parent's
+      <code>open</code> attribute to the empty string.
+      <p class="note">This will then run the <a>details notification task steps</a>.</p></li>
+    </ol>
+
+<h4 id="commands">Commands</h4>
+
+<h5 id="commands-facets">Facets</h5>
+
+  A <dfn lt="defines a command|command">command</dfn> is the abstraction behind buttons, and links. Once a command is defined, other parts of the interface can refer to
+  the same command, allowing many access points to a single feature to share facets such as the
+  <a for="facet">Disabled State</a>.
+
+  Commands are defined to have the following <dfn>facets</dfn>:
+
+  : <dfn for="facet">Label</dfn>
+  :: The name of the command as seen by the user.
+  : <dfn for="facet">Access Key</dfn>
+  :: A key combination selected by the user agent that triggers the command. A command might not
+      have an Access Key.
+  : <dfn for="facet">Hidden State</dfn>
+  :: Whether the command is hidden or not.
+  : <dfn for="facet">Disabled State</dfn>
+  :: Whether the command is relevant and can be triggered or not.
+  : <dfn for="facet">Action</dfn>
+  :: The actual effect that triggering the command will have. This could be a scripted event
+      handler, a [=url/URL=] to which to <a>navigate</a>, or a form submission.
+
+  User agents may expose the <a>commands</a> that match the following criteria:
+
+  <ul class="brief">
+
+    <li>The <a for="facet">Hidden State</a> facet is false (visible)</li>
+
+    <li>The element is <a>in a <code>Document</code></a> that has an associated <a>browsing context</a>.</li>
+
+    <li>Neither the element nor any of its ancestors has a <{global/hidden}>
+    attribute specified.</li>
+
+  </ul>
+
+  User agents are encouraged to do this especially for commands that have <a for="facet" lt="Access Key">Access Keys</a>, as a way to advertise those keys to the
+  user.
+
+
+<h5 id="using-the-a-element-to-define-a-command">Using the <{a}> element to define a command</h5>
+
+  An <{a}> element with an <{a/href}> attribute defines a command.
+
+  The <a for="facet">Label</a> of the command is the string given by the
+  element's {{Node/textContent}} IDL attribute.
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>, if any.
+
+  The <a for="facet">Hidden State</a> of the command is true (hidden)
+  if the element has a <{global/hidden}> attribute, and false otherwise.
+
+  The <a for="facet">Disabled State</a> facet of the command is
+  true if the element or one of its ancestors is <a>inert</a>, and false otherwise.
+
+  The <a for="facet">Action</a> of the command, if the element has a
+  defined <a>activation behavior</a>, is to <a>run synthetic click activation steps</a>
+  on the element. Otherwise, it is just to <a>fire a <code>click</code>
+  event</a> at the element.
+
+<h5 id="using-the-button-element-to-define-a-command">Using the <{button}> element to define a command</h5>
+
+  A <{button}> element always <a>defines a command</a>.
+
+  The <a for="facet">Label</a>, <a for="facet">Access Key</a>, <a for="facet">Hidden State</a>, and <a for="facet">Action</a> facets of the command are determined <span>as for <{a}> elements</span> (see the previous section).
+
+  The <a for="facet">Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a>inert</a>, or if the element's disabled state is set, and false otherwise.
+
+<h5 id="using-the-input-element-to-define-a-command">Using the <{input}> element to define a command</h5>
+
+  An <{input}> element whose <code>type</code> attribute is in
+  one of the <{input/Submit|Submit Button}>, <{input/Reset|Reset Button}>, <{input/Image|Image Button}>, <{input/Button}>, <{input/Radio|Radio Button}>, or <{input/Checkbox}> states <a>defines a command</a>.
+
+  The <a for="facet">Label</a> of the command is determined as
+  follows:
+
+  <ul>
+
+    <li>If the <code>type</code> attribute is in one of the
+    <{input/Submit|Submit Button}>, <{input/Reset|Reset Button}>, <{input/Image|Image Button}>, or <{input/Button}> states, then the
+    <a for="facet">Label</a> is the string given by the
+    <code>value</code> attribute, if any, and a user agent-dependent,
+    locale-dependent value that the user agent uses to label the button itself if the attribute is
+    absent.</li>
+
+    <li>Otherwise, if the element is a <a>labeled control</a>, then the
+    <a for="facet">Label</a> is the string given by the
+    {{Node/textContent}} of the first <{label}> element in <a>tree order</a>
+    whose <a>labeled control</a> is the element in question. (In DOM terms, this is the
+    string given by <code><var>element</var>.labels[0].textContent</code>.)</li>
+
+    <li>Otherwise, if the <code>value</code> attribute is present, then
+    the <a for="facet">Label</a> is the value of that attribute.</li>
+
+    <li>Otherwise, the <a for="facet">Label</a> is the empty string.</li>
+
+  </ul>
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>, if any.
+
+  The <a for="facet">Hidden State</a> of the command is true (hidden)
+  if the element has a <{global/hidden}> attribute, and false otherwise.
+
+  The <a for="facet">Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a>inert</a>, or if the element's disabled state is set, and false otherwise.
+
+  The <a for="facet">Action</a> of the command, if the element has a
+  defined <a>activation behavior</a>, is to <a>run synthetic click activation steps</a>
+  on the element. Otherwise, it is just to <a>fire a <code>click</code>
+  event</a> at the element.
+
+<h5 id="using-the-option-element-to-define-a-command"><dfn lt="facet command">Using the <{option}> element to define a command</dfn></h5>
+
+  An <{option}> element with an ancestor <{select}> element and either no <code>value</code> attribute or a <code>value</code>
+  attribute that is not the empty string defines a command.
+
+  The <a for="facet">Label</a> of the command is the value of the
+  <{option}> element's <code>label</code> attribute, if there is
+  one, or else the value of <{option}> element's {{Node/textContent}} IDL attribute,
+  with <a>leading and trailing white space
+  stripped</a>, and with any sequences of two or more <a>space
+  characters</a> replaced by a single U+0020 SPACE character.
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>, if any.
+
+  The <a for="facet">Hidden State</a> of the command is true (hidden)
+  if the element has a <{global/hidden}> attribute, and false otherwise.
+
+  The <a for="facet">Disabled State</a> of the command is true if
+  the element is disabled, or if its nearest ancestor
+  <{select}> element is disabled, or if it or one
+  of its ancestors is <a>inert</a>, and false otherwise.
+
+  If the <code>option</code>'s nearest ancestor <{select}> element has a <code>multiple</code> attribute, the <a for="facet">Action</a> of the command is to <a>pick</a> the <{option}> element. Otherwise, the <a for="facet">Action</a> is to <a>toggle</a> the <{option}> element.
+
+<h5 id="using-the-accesskey-attribute-on-a-label-element-to-define-a-command">Using the <code>accesskey</code> attribute
+  on a <{label}> element to define a command</h5>
+
+  A <{label}> element that has an <a>assigned access key</a> and a <a>labeled
+  control</a> and whose <a>labeled control</a> <a>defines a command</a>, itself defines a command.
+
+  The <a for="facet">Label</a> of the command is the string given by the
+  element's {{Node/textContent}} IDL attribute.
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>.
+
+  The <a for="facet">Hidden State</a>, <a for="facet">Disabled State</a>, and <a for="facet">Action</a> facets of the command are the same as the respective
+  facets of the element's <a>labeled control</a>.
+
+<h5 id="using-the-accesskey-attribute-on-a-legend-element-to-define-a-command">Using the <code>accesskey</code> attribute
+  on a <{legend}> element to define a command</h5>
+
+  A <{legend}> element that has an <a>assigned access key</a> and is a child of a
+  <{fieldset}> element that has a descendant that is not a descendant of the
+  <{legend}> element and is neither a <{label}> element nor a <code>legend</code>
+  element but that defines a command, itself defines a command.
+
+  The <a for="facet">Label</a> of the command is the string given by the
+  element's {{Node/textContent}} IDL attribute.
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>.
+
+  The <a for="facet">Hidden State</a>, <a for="facet">Disabled State</a>, and <a for="facet">Action</a> facets of the command are the same as the respective
+  facets of the first element in <a>tree order</a> that is a descendant of the parent of the
+  <{legend}> element that defines a command but is not
+  a descendant of the <{legend}> element and is neither a <code>label</code> nor a
+  <{legend}> element.
+
+<h5 id="using-the-accesskey-attribute-to-define-a-command-on-other-elements">Using the <code>accesskey</code>
+  attribute to define a command on other elements</h5>
+
+  An element that has an <a>assigned access key</a> <a>defines a command</a>.
+
+  If one of the earlier sections that define elements that <a lt="facet command">define commands</a> define that this element defines a command,
+  then that section applies to this element, and this section does not. Otherwise, this section
+  applies to that element.
+
+  The <a for="facet">Label</a> of the command depends on the element. If
+  the element is a <a>labeled control</a>, the {{Node/textContent}} of the first
+  <{label}> element in <a>tree order</a> whose <a>labeled control</a> is the
+  element in question is the <a for="facet">Label</a> (in DOM terms, this is
+  the string given by <code><var>element</var>.labels[0].textContent</code>). Otherwise,
+  the <a for="facet">Label</a> is the {{Node/textContent}} of the element
+  itself.
+
+  The <a for="facet">Access Key</a> of the command is the element's
+  <a>assigned access key</a>.
+
+  The <a for="facet">Hidden State</a> of the command is true (hidden)
+  if the element has a <{global/hidden}> attribute, and false otherwise.
+
+  The <a for="facet">Disabled State</a> of the command is true if
+  the element or one of its ancestors is <a>inert</a>, and false otherwise.
+
+  The <a for="facet">Action</a> of the command is to run the following
+  steps:
+
+  <ol>
+
+    <li>Run the <a>focusing steps</a> for the element.</li>
+
+    <li>If the element has a defined <a>activation behavior</a>, <a>run synthetic click
+    activation steps</a> on the element.</li>
+
+    <li>Otherwise, if the element does not have a defined <a>activation behavior</a>,
+    <a>fire a <code>click</code> event</a> at the element.</li>
+
+  </ol>
+
+<h4 id="the-dialog-element">The <dfn element><code>dialog</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dd><a>Sectioning root</a>.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>Where <a>flow content</a> is expected.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd><a>Flow content</a>.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>Neither tag is omissible</dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a></dd>
+    <dd><code>open</code> - Whether the dialog box is showing</dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>
+      <a attr-value for="aria/role"><code>dialog</code></a>
+      (default - <a><em>do not set</em></a>)
+      or
+      <a attr-value for="aria/role"><code>alertdialog</code></a>.
+    </dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd><a>Global aria-* attributes</a></dd>
+    <dd>
+      Any <code>aria-*</code> attributes
+      <a href="#allowed-aria-roles-states-and-properties">applicable to the <code>dialog</code> roles</a>.
+    </dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl" data-highlight="webidl">
+        interface HTMLDialogElement : HTMLElement {
+          attribute boolean open;
+          attribute DOMString returnValue;
+          void show(optional (MouseEvent or Element) anchor);
+          void showModal(optional (MouseEvent or Element) anchor);
+          void close(optional DOMString returnValue);
+        };
+      </pre>
+    </dd>
+  </dl>
+
+  The <{dialog}> element represents a part of an application that a user interacts with
+  to perform a task, for example a dialog box, inspector, or window.
+
+  The <dfn element-attr for="dialog"><code>open</code></dfn> attribute is a <a>boolean
+  attribute</a>. When specified, it indicates that the <{dialog}> element is active and
+  that the user can interact with it.
+
+  <div class="example">
+   <p>The following is an example of a modal <{dialog}> which provides a form for a user to add
+   coins to their wallet, as part of an online game.</p>
+
+    <xmp highlight="html">
+      <div>
+        <!-- body content -->
+      </div>
+      <dialog>
+        <h1>Add to Wallet</h1>
+        <label for="num">How many gold coins do you want to add to your wallet?</label>
+        <div><input name="amt" id="num" type="number" min="0" step="0.01" value="100"></div>
+        <p><strong>You add coins at your own risk.</strong></p>
+        <div><label><input name="round" type="checkbox">Only add perfectly round coins</label></div>
+        <div><input type="button" onclick="submit()" value="Add Coins"></div>
+      </dialog>
+    </xmp>
+
+    <img src="images/dialog.png" alt="Add to Wallet Dialog">
+  </div>
+
+
+  A <{dialog}> element without an <code>open</code> attribute
+  specified should not be shown to the user. This requirement may be implemented indirectly through
+  the style layer. For example, user agents that <a>support the suggested
+  default rendering</a> implement this requirement using the CSS rules described in [[#rendering]].
+
+
+  The <{global/tabindex}> attribute must not be specified on
+  <{dialog}> elements.
+
+  <dl class="domintro">
+
+    <dt><var>dialog</var> . <code>show</code>( [ <var>anchor</var> ] )</dt>
+
+    <dd>
+
+    Displays the <{dialog}> element.
+
+    The argument, if provided, provides an anchor point to which the element will be fixed.
+
+    </dd>
+
+    <dt><var>dialog</var> . <code>showModal</code>( [ <var>anchor</var> ] )</dt>
+
+    <dd>
+
+    Displays the <{dialog}> element and makes it the top-most modal dialog.
+
+    The argument, if provided, provides an anchor point to which the element will be fixed.
+
+    This method honors the <{formelements/autofocus}> attribute.
+
+    </dd>
+
+    <dt><var>dialog</var> . <code>close</code>( [ <var>result</var> ] )</dt>
+
+    <dd>
+
+    Closes the <{dialog}> element.
+
+    The argument, if provided, provides a return value.
+
+    </dd>
+
+    <dt><var>dialog</var> . {{HTMLDialogElement/returnValue}} [ = <var>result</var> ]</dt>
+
+    <dd>
+
+    Returns the <code>dialog</code>'s return value.
+
+    Can be set, to update the return value.
+
+    </dd>
+
+  </dl>
+
+
+  When the <dfn method for="HTMLDialogElement"><code>show()</code></dfn> method is invoked, the user
+  agent must run the following steps:
+
+  <ol>
+
+    <li>If the element already has an <code>open</code> attribute, then
+    abort these steps.</li>
+
+    <li>Add an <code>open</code> attribute to the <code>dialog</code>
+    element, whose value is the empty string.</li>
+
+    <li>If the <code>show()</code> method was invoked with an argument,
+    <a>set up the position</a> of the <{dialog}> element, using that argument as the
+    anchor. Otherwise, set the <code>dialog</code> to the <a>normal alignment</a> mode.</li>
+
+    <li>Run the <a>dialog focusing steps</a> for the <{dialog}> element.</li>
+
+  </ol>
+
+  <hr />
+
+  Each <code>Document</code> has a stack of <{dialog}> elements known as the
+  <dfn>pending dialog stack</dfn>. When a <code>Document</code> is created, this stack must be
+  initialized to be empty.
+
+  When an element is added to the <a>pending dialog stack</a>, it must also be added to the
+  <a>top layer</a>. When an element is removed from the <a>pending dialog
+  stack</a>, it must be removed from the <a>top layer</a>. [[!FULLSCREEN]]
+
+  When the <dfn lt="modal dialog is shown"></dfn><dfn method for="HTMLDialogElement"><code>showModal()</code></dfn> method is invoked,
+  the user agent must run the following steps:
+
+  <ol>
+
+    <li>Let <var>subject</var> be the <{dialog}> element on which the method was
+    invoked.</li>
+
+    <li>If <var>subject</var> already has an <code>open</code>
+    attribute, then throw an {{InvalidStateError}} exception and abort these steps.</li>
+
+    <li>If <var>subject</var> is not <a>in a <code>Document</code></a>, then throw
+    an {{InvalidStateError}} exception and abort these steps.</li>
+
+    <li>Add an <code>open</code> attribute to <var>subject</var>, whose value is the empty string.</li>
+
+    <li>If the <code>showModal()</code> method was invoked with an
+    argument, <a>set up the position</a> of <var>subject</var>, using that argument
+    as the anchor. Otherwise, set the <code>dialog</code> to the <a>centered alignment</a>
+    mode.</li>
+
+    <li>Let <var>subject</var>'s <a>node document</a> be <a>blocked by the modal dialog</a> <var>subject</var>.</li>
+
+    <li>Push <var>subject</var> onto <var>subject</var>'s
+    <a>node document</a>'s <a>pending dialog stack</a>.</li>
+
+    <li>Run the <a>dialog focusing steps</a> for <var>subject</var>.</li>
+
+  </ol>
+
+  The <dfn>dialog focusing steps</dfn> for a <{dialog}> element <var>subject</var> are as follows:
+
+  <ol>
+
+    <li>If for some reason <var>subject</var> is not a <a>control group owner</a>
+    at this point, or if it is <a>inert</a>, abort these steps.</li>
+
+    <li>
+
+    Let <var>control</var> be the first non-<a>inert</a> <a>focusable area</a> in
+    <var>subject</var>'s <a>control group</a> whose <a>DOM anchor</a> has an <{formelements/autofocus}> attribute specified.
+
+    If there isn't one, then let <var>control</var> be <var>subject</var>.
+
+    </li>
+
+    <li>Run the <a>focusing steps</a> for <var>control</var>.</li>
+
+  </ol>
+
+  If at any time a <{dialog}> element is <a>removed from a <code>Document</code></a>, then if that <code>dialog</code> is in that
+  <code>Document</code>'s <a>pending dialog stack</a>, the following steps must be run:
+
+  <ol>
+
+    <li>Let <var>subject</var> be that <{dialog}> element and <var>document</var> be the <code>Document</code> from which it is being removed.</li>
+
+    <li>Remove <var>subject</var> from <var>document</var>'s <a>pending
+    dialog stack</a>.</li>
+
+    <li>If <var>document</var>'s <a>pending dialog stack</a> is not empty, then let
+    <var>document</var> be <a>blocked by the modal
+    dialog</a> that is at the top of <var>document</var>'s <a>pending dialog
+    stack</a>. Otherwise, let <var>document</var> be no longer <a>blocked by a modal
+    dialog</a> at all.</li>
+
+  </ol>
+
+  When the <dfn method for="HTMLDialogElement"><code>close()</code></dfn> method is invoked, the user
+  agent must <a>close the dialog</a> that the method was invoked on. If the method was invoked
+  with an argument, that argument must be used as the return value; otherwise, there is no return
+  value.
+
+  When a <{dialog}> element <var>subject</var> is to be <dfn lt="close the dialog">closed</dfn>, optionally with a return value <var>result</var>, the user agent
+  must run the following steps:
+
+  <ol>
+
+    <li>If <var>subject</var> does not have an <code>open</code>
+    attribute, then abort these steps.</li>
+
+    <li>Remove <var>subject</var>'s <code>open</code>
+    attribute.</li>
+
+    <li>If the argument <var>result</var> was provided, then set the {{HTMLDialogElement/returnValue}} attribute to the value of <var>result</var>.</li>
+
+    <li>
+
+    If <var>subject</var> is in its <code>Document</code>'s <a>pending dialog
+    stack</a>, then run these substeps:
+
+    <ol>
+
+      <li>Remove <var>subject</var> from that <a>pending dialog stack</a>.</li>
+
+      <li>If that <a>pending dialog stack</a> is not empty, then let <var>subject</var>'s <a>node document</a> be <a>blocked by the modal dialog</a> that is at the top of the <a>pending dialog
+      stack</a>. Otherwise, let <var>document</var> be no longer <a>blocked by a modal
+      dialog</a> at all.</li>
+
+    </ol>
+
+    </li>
+
+    <li><a>Queue a task</a> to <a>fire a simple event</a> named <code>close</code> at <var>subject</var>.</li>
+
+  </ol>
+
+  The <dfn attribute for="HTMLDialogElement"><code>returnValue</code></dfn> IDL attribute, on
+  getting, must return the last value to which it was set. On setting, it must be set to the new
+  value. When the element is created, it must be set to the empty string.
+
+  <hr />
+
+  <strong>Canceling dialogs</strong>: When a <code>Document</code>'s <a>pending dialog
+  stack</a> is not empty, user agents may provide a user interface that, upon activation, <a>queues a task</a> to <a>fire a simple event</a> named <code>cancel</code> that is cancelable at the top <{dialog}> element on
+  the <code>Document</code>'s <a>pending dialog stack</a>. The default action of this event
+  must be to check if that element has an <code>open</code> attribute, and
+  if it does, <a>close the dialog</a> with no return value.
+
+  <p class="note">
+    An example of such a UI mechanism would be the user pressing the "Escape" key.
+  </p>
+
+  <hr />
+
+  All <{dialog}> elements are always in one of two modes: <dfn>normal alignment</dfn> and
+  <dfn>centered alignment</dfn>. When a <{dialog}> element
+  is created, it must be placed in the <a>normal alignment</a> mode. In this mode, normal CSS
+  requirements apply to the element. The <a>centered alignment</a> mode is only used for
+  <{dialog}> elements that are in the <a>top layer</a>. [[!FULLSCREEN]] [[!CSS-2015]]
+
+  When an element <var>subject</var> is placed in <a>centered alignment</a> mode,
+  and when it is in that mode and has new rendering boxes created, the user agent must set up the
+  element such that its top static position, for the purposes of calculating the <a>used value</a> of the
+  'top' property, is the value that would place the element's top <a>margin edge</a> as far from the top of
+  the <a>viewport</a> as the element's bottom <a>margin edge</a> from the bottom of the viewport, if the element's
+  height is less than the height of the viewport, and otherwise is the value that would place the
+  element's top <a>margin edge</a> at the top of the viewport.
+
+  If there is a <{dialog}> element with <a>centered alignment</a> and that is
+  <a>being rendered</a> when its <a>browsing context</a> changes <a>viewport</a> width (as
+  measured in CSS pixels), then the user agent must recreate the element's boxes, recalculating its
+  top static position as in the previous paragraph.
+
+  This top static position of a <{dialog}> element with <a>centered alignment</a>
+  must remain the element's top static position until its boxes are recreated. (The element's static
+  position is only used in calculating the <a>used value</a> of the 'top' property in certain situations;
+  it's not used, for instance, to position the element if its 'position' property is set to
+  ''static''.)
+
+  When a user agent is to <dfn>set up the position</dfn> of an element <var>subject</var> using an anchor <var>anchor</var>, it must run the following
+  steps:
+
+  <ol>
+
+    <li>
+
+    If <var>anchor</var> is a <code>MouseEvent</code> object, then run these
+    substeps:
+
+    <ol>
+
+      <li>If <var>anchor</var>'s target element does not have a rendered box, or is in a
+      different document than <var>subject</var>, then let <var>subject</var> be
+      in the <a>centered alignment</a> mode, and abort the <a>set up the position</a>
+      steps.</li>
+
+      <li>Let <var>anchor element</var> be an anonymous element rendered as a box with
+      zero 'height' and 'width' (so its 'margin' and <a>border boxes</a> both just form a point), positioned so
+      that its top and left are at the coordinate identified by the event, and whose properties all
+      compute to their initial values.</li>
+
+    </ol>
+
+    Otherwise, let <var>anchor element</var> be <var>anchor</var>.
+
+    </li>
+
+  </ol>
+
+  <p class="note">
+    If an element to which another element is anchored changes rendering, the anchored
+  element will be repositioned accordingly. (In other words, the requirements above are live,
+  they are not just calculated once per anchored element.)
+  </p>
+
+  User agents in visual interactive media should allow the user to pan the <a>viewport</a> to access all
+  parts of a <{dialog}> element's <a>border box</a>, even if the element is larger than the
+  <a>viewport</a> and the <a>viewport</a> would otherwise not have a scroll mechanism (e.g., because the viewport's
+  'overflow' property is set to ''hidden'').
+
+  <hr />
+
+  The <dfn attribute for="HTMLDialogElement"><code>open</code></dfn> IDL attribute must
+  <a>reflect</a> the <code>open</code> content attribute.
+

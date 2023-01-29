@@ -1,0 +1,103 @@
+<section>
+
+<!--
+
+    Semantics: Root
+
+  This source produces section 4.1: The document Element
+  https://w3c.github.io/html/semantics.html#the-root-element
+
+  It covers:
+  - HTML element
+  - The manifest attribute, and its pending removal
+  - Note about keeping HTML attributes at a minimum to allow proper char encoding within 1024 bytes
+
+-->
+
+<h3 id="the-root-element">The document element</h3>
+
+<h4 id="the-html-element">The <dfn element><code>html</code></dfn> element</h4>
+
+  <dl class="element">
+    <dt><a>Categories</a>:</dt>
+    <dd>None.</dd>
+    <dt><a>Contexts in which this element can be used</a>:</dt>
+    <dd>As the document's <a>document element</a>.</dd>
+    <dd>Wherever a subdocument fragment is allowed in a compound document.</dd>
+    <dt><a>Content model</a>:</dt>
+    <dd>A <{head}> element followed by a <{body}> element.</dd>
+    <dt><a>Tag omission in text/html</a>:</dt>
+    <dd>
+      An <{html}> element's <a>start tag</a> can be omitted if the first thing inside the
+      <{html}> element is not a <a>comment</a>.
+    </dd>
+    <dd>
+      An <{html}> element's <a>end tag</a> can be omitted if the <{html}> element
+      is not immediately followed by a <a>comment</a>.
+    </dd>
+    <dt><a>Content attributes</a>:</dt>
+    <dd><a>Global attributes</a>.</dd>
+    <dd><{html/manifest}> — Application cache manifest.</dd>
+    <dt>[=Allowed ARIA role attribute values=]:</dt>
+    <dd>None.</dd>
+    <dt>[=Allowed ARIA state and property attributes=]:</dt>
+    <dd>None.</dd>
+    <dt><a>DOM interface</a>:</dt>
+    <dd>
+      <pre class="idl" data-highlight="webidl">
+        interface HTMLHtmlElement : HTMLElement {};
+      </pre>
+    </dd>
+  </dl>
+
+  The <{html}> element <a>represents</a> the root of an HTML document.
+
+  Authors are encouraged to specify a <{global/lang}> attribute on the root <{html}> element, giving
+  the document's language. This aids speech synthesis tools to determine what pronunciations to use,
+  translation tools to determine what rules to use, and so forth.
+  
+  <p>The <dfn element-attr for="html"><code>manifest</code></dfn> attribute gives the address of the 
+  document's <span>application cache</span> <span>manifest</span>, if there is one. If the attribute is present, 
+  the attribute's value must be a <a>valid non-empty URL potentially surrounded by spaces</a>.</p>
+
+  Advisement: The <span>manifest</span>-based <span>application cache</span> feature is in the
+  process of being removed from the Web platform. (This is a long process that takes many years.)
+  Using the <span>application cache</span> feature at this time is highly discouraged. Use service
+  workers instead. [[SERVICE-WORKERS]]
+
+  <p>The <{html/manifest}> attribute only <span>has an effect</span> during the early stages of document load. 
+  Changing the attribute dynamically thus has no effect (and thus, no DOM API is provided for this 
+  attribute).</p>
+  
+  <p class="note">For the purposes of <span>application cache</span> selection, later <{base}> elements 
+  cannot affect the <a lt="parse a URL">parsing of URLs</a> in <{html/manifest}> attributes, as the 
+  attributes are processed before those elements are seen.</p>
+  
+  <p class="note">The <span><code>window.applicationCache</code></span> IDL attribute provides scripted 
+  access to the offline <span>application cache</span> mechanism.</p>
+  
+  <p class="note">
+    It is recommended to keep the usage of attributes and their values defined on the <{html}>
+    element to a minimum to allow for proper detection of the <a>character encoding declaration</a>
+    within the first 1024 bytes.
+  </p>
+
+  <div class="example">
+    The <{html}> element in the following example declares that the document's language is English.
+
+    <xmp highlight="html">
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <title>Swapping Songs</title>
+        </head>
+        <body>
+          <h1>Swapping Songs</h1>
+          <p>Tonight I swapped some of the songs I wrote with some friends, who
+          gave me some of the songs they wrote. I love sharing my music.</p>
+        </body>
+      </html>
+    </xmp>
+  </div>
+
+</section>
